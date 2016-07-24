@@ -1,0 +1,58 @@
+<exmod>
+    <head>
+        <info  name="name">time</info>
+        <info  name="author">홍승환</info>
+        <info name="messsage">
+            이 모듈은 시간과 관련된 정보를 제공하는 모듈입니다.
+        </info>
+        <import class="Date"/>
+    </head>
+    <!--
+        출력되는 Haxe 코드 :
+
+        import Date;
+
+        public function hour() {
+            return a.getHours();
+        }
+
+        public function minute() {
+            return a.getMinutes();
+        }
+
+        public function nowtime() {
+            return a.getHours() + "시 " + a.getMinutes() + "분";
+        }
+
+        블럭:
+        <현재 시> (삽입형 1)
+        <현재 분> (삽입형 1)
+        <현재 시간> (삽입형 1)
+        <{시간}시 {분}분> (포맷형 2)
+        <만약 {시간포맷}이 현재 시간보다 {늦다면,이르다면}> (논리분기형 3)
+    -->
+    <body>
+        <block func="hour" title="현재 시" blocktype="1" format="NUMBER">
+            <code>
+                return a.getHours();
+            </code>
+        </block>
+        <block func="minute" title="현재 분" blocktype="1" format="NUMBER">
+            <code>
+                return a.getMinutes();
+            </code>
+        </block>
+        <block func="nowtime" title="현재 시간" blocktype="1" format="time STRING">
+            <code>
+                return a.getHours() + "시 " + a.getMinutes() + "분";
+            </code>
+        </block>
+        <block title="{hour}시 {minute}분" blocktype="2" format="time">
+            <code>
+                
+            </code>
+        </block>
+        <block title="만약 {time}이 현재 시간보다 {늦다면,빠르다면}" blocktype="3">
+        </block>
+    </body>
+</exmod>

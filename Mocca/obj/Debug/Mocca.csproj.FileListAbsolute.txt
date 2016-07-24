@@ -1,0 +1,6 @@
+C:\Users\hj332\Workspace\EPL\Mocca\Mocca\Mocca\bin\Debug\Mocca.exe.config
+C:\Users\hj332\Workspace\EPL\Mocca\Mocca\Mocca\bin\Debug\Mocca.exe
+C:\Users\hj332\Workspace\EPL\Mocca\Mocca\Mocca\bin\Debug\Mocca.pdb
+C:\Users\hj332\Workspace\EPL\Mocca\Mocca\Mocca\obj\Debug\Mocca.csprojResolveAssemblyReference.cache
+C:\Users\hj332\Workspace\EPL\Mocca\Mocca\Mocca\obj\Debug\Mocca.exe
+C:\Users\hj332\Workspace\EPL\Mocca\Mocca\Mocca\obj\Debug\Mocca.pdb
