@@ -12,6 +12,13 @@ namespace Mocca {
         SOURCE_FILE
     }
 
+    enum TokenType {
+        OPERATOR,
+        DIVIDER,
+        STRING,
+        NORMAL
+    }
+
     public class Parser {
         static bool IS_DEBUGGING = true;
         static int PARSER_MINIMUM_VERSION = 1;
@@ -79,10 +86,91 @@ namespace Mocca {
         }
 
         public void parse() {
-            print("PARSE START");
+            // 어휘 분석 : 토큰, 식별자, 예약어 인식
+            var string_mode = false;
+            for(int i = 0; i < source.Length; i++) {
+                // 문자 스택
+                var stack = "";
+                var keepLoop = true;
+                while (keepLoop) {
+                    // 문자열 진행 체크
+                    if (string_mode && !source[i].Equals('\"')) {
+                        stack += source[i];
+                        i++;
+                    } else {
+                        // 토큰 체크
+                        if (tokenRecognize(source[i]) != TokenType.NORMAL) {
+                            if(string_mode) {
+                                print("문자열 : " + stack);
+                            } else {
+                                // 숫자 체크
+                                stack = stack.Trim();
+                                int tempInt;
+                                if(int.TryParse(stack, out tempInt) != false) {
+                                    print("숫자 : " + stack);
+                                } else if(!stack.Equals("") && stack.Trim().Length != 0 && stack != null) {
+                                    print("식별자 : " + stack);
+                                }
+                            }
+
+                            switch (tokenRecognize(source[i])) {
+                                case TokenType.STRING:
+                                    if (string_mode) {
+                                        string_mode = false;
+                                        keepLoop = false;
+                                    } else {
+                                        string_mode = true;
+                                        keepLoop = false;
+                                    }
+                                    break;
+                                default:
+                                    if (string_mode) {
+                                        stack += source[i];
+                                        i++;
+                                    } else {
+                                        print("구분자 : " + source[i]);
+                                        keepLoop = false;
+                                    }
+                                    break;
+                            }
+                        } else {
+                            stack += source[i];
+                            i++;
+                        }
+                    }
+                    if(i >= source.Length) {
+                        break;
+                    }
+                }
+            }
+            
         }
 
-        void print(string a) {
+        private TokenType tokenRecognize(char src) {
+            if (src.Equals('+') || src.Equals('-') || src.Equals('*') || src.Equals('/') || src.Equals('=')) {
+                return TokenType.OPERATOR;
+            } else if (src.Equals('(') || src.Equals(')') || src.Equals('{') || src.Equals('}') || src.Equals('[') || src.Equals(']') || src.Equals(',') || src.Equals(';')) {
+                return TokenType.DIVIDER;
+            } else if (src.Equals('\"')) {
+                return TokenType.STRING;
+            } else {
+                return TokenType.NORMAL;
+            }
+        }
+
+        public string getSource() {
+            return source;
+        }
+
+        public void setSource(string source) {
+            this.source = source;
+        }
+
+        public Dictionary<string, string> getFileInfo() {
+            return fileInfo;
+        }
+
+        void print(object a) {
             if(IS_DEBUGGING)
             Console.WriteLine(a);
         }
