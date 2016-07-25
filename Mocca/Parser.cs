@@ -109,7 +109,29 @@ namespace Mocca {
                                 if(int.TryParse(stack, out tempInt) != false) {
                                     print("숫자 : " + stack);
                                 } else if(!stack.Equals("") && stack.Trim().Length != 0 && stack != null) {
-                                    print("식별자 : " + stack);
+                                    switch(stack) {
+                                        case "if":
+                                            print("예약어_만약 : " + stack);
+                                            break;
+                                        case "elif":
+                                            print("예약어_아니고만약 : " + stack);
+                                            break;
+                                        case "else":
+                                            print("예약어_아니면 : " + stack);
+                                            break;
+                                        case "while":
+                                            print("예약어_조건만족 : " + stack);
+                                            break;
+                                        case "for":
+                                            print("예약어_항목순환 : " + stack);
+                                            break;
+                                        case "block":
+                                            print("예약어_블럭묶음 : " + stack);
+                                            break;
+                                        default:
+                                            print("식별자 : " + stack);
+                                            break;
+                                    }
                                 }
                             }
 

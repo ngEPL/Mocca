@@ -26,7 +26,7 @@
         block(5,10) {
             if(logic_compare(age, 14, NOT_EQUAL)) {
                 cmd(print,"아직 많이 어리네요.");
-            } elif(logic_compare(age, 19, UNDER) {
+            } elif(logic_compare(age, 19, UNDER)) {
                 cmd(print,"아직 술은 못 마시네요.");
             } else {
                 cmd(print,"술을 마실 수 있는 나이네요.");
