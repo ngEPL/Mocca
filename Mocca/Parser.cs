@@ -12,25 +12,21 @@ namespace Mocca {
         SOURCE_FILE
     }
 
-    enum TokenType {
-        OPERATOR,
-        DIVIDER,
-        STRING,
-        NORMAL
-    }
-
     public class Parser {
-        static bool IS_DEBUGGING = true;
-        static int PARSER_MINIMUM_VERSION = 1;
+        static bool IS_DEBUGGING = false; // 디버깅 모드 활성화 여부
+        static int PARSER_MINIMUM_VERSION = 1; // 분석기 최하위 호환 버전
 
-        string source;
-        ParseMode mode;
+        string source; // 원본 소스
+        ParseMode mode; // 파싱 모드
 
-        string filePath;
-        Dictionary<string, string> fileInfo = new Dictionary<string, string>();
+        string filePath; // 파일의 경로
+        Dictionary<string, string> fileInfo = new Dictionary<string, string>(); // 파일 정보
 
-        List<string> extModules = new List<string>();
+        List<string> extModules = new List<string>(); // 외부 모듈 정보
 
+        /*
+         * 생성자.
+         */ 
         public Parser(string source, ParseMode mode) {
             this.mode = mode;
             switch (mode) {
@@ -41,15 +37,21 @@ namespace Mocca {
                 case ParseMode.SOURCE_FILE:
                     print("ParseMode: SOURCE_FILE");
                     this.filePath = source;
-                    preprocess();
+                    Preprocess();
                     break;
             }
         }
 
-        private void preprocess() {
+        /*
+         * ParseMode가 SOURCE_FILE일 때,
+         * 파일을 가져와서 소스를 추출하고 파일 정보를 객체에 등록시킨다.
+         * 생성자에서 자동으로 호출된다.
+         */ 
+        private void Preprocess() {
             print("Opening " + filePath);
             var xml = XDocument.Load(filePath);
 
+            // 버전 확인
             var versionCheckQuery = from c in xml.Root.Descendants("mocca")
                                     select c.Attribute("version");
             var version = 0;
@@ -62,6 +64,7 @@ namespace Mocca {
                 return;
             }
 
+            // 파일 정보 추출
             var fileInfoCheckQuery = from c in xml.Root.Descendants("meta")
                         select c.Attribute("name").Value + "|" +
                                c.Attribute("field").Value;
@@ -71,12 +74,14 @@ namespace Mocca {
                 fileInfo.Add(a[0], a[1]);
             }
 
+            // 외부 모듈 정보 추출
             var extModuleCheckQuery = from c in xml.Root.Descendants("mod")
                                       select c.Attribute("name").Value;
             foreach(string i in extModuleCheckQuery) {
                 extModules.Add(i);
             }
 
+            // 원본 소스 추출
             var sourceQuery = from c in xml.Root.Descendants("code")
                               select c.Value;
             foreach(string i in sourceQuery) {
@@ -85,7 +90,12 @@ namespace Mocca {
             }
         }
 
-        public void parse() {
+        /*
+         * 객체 정보를 바탕으로 어휘 분석을 실시한다.
+         * 토큰 정보가 담긴 객체 배열을 반환한다.
+         */ 
+        public List<Token> Parse() {
+            var ret = new List<Token>();
             // 어휘 분석 : 토큰, 식별자, 예약어 인식
             var string_mode = false;
             for(int i = 0; i < source.Length; i++) {
@@ -99,43 +109,53 @@ namespace Mocca {
                         i++;
                     } else {
                         // 토큰 체크
-                        if (tokenRecognize(source[i]) != TokenType.NORMAL) {
+                        if (TokenRecognize(source[i]) != TokenType.UNTYPED) {
                             if(string_mode) {
                                 print("문자열 : " + stack);
+                                ret.Add(new Token(TokenType.STRING, stack));
                             } else {
                                 // 숫자 체크
                                 stack = stack.Trim();
                                 int tempInt;
                                 if(int.TryParse(stack, out tempInt) != false) {
                                     print("숫자 : " + stack);
+                                    ret.Add(new Token(TokenType.NUMBER, stack));
                                 } else if(!stack.Equals("") && stack.Trim().Length != 0 && stack != null) {
-                                    switch(stack) {
+                                    // 예약어 체크
+                                    switch (stack) {
                                         case "if":
                                             print("예약어_만약 : " + stack);
+                                            ret.Add(new Token(TokenType.IF));
                                             break;
                                         case "elif":
                                             print("예약어_아니고만약 : " + stack);
+                                            ret.Add(new Token(TokenType.ELIF));
                                             break;
                                         case "else":
                                             print("예약어_아니면 : " + stack);
+                                            ret.Add(new Token(TokenType.ELSE));
                                             break;
                                         case "while":
                                             print("예약어_조건만족 : " + stack);
+                                            ret.Add(new Token(TokenType.WHILE));
                                             break;
                                         case "for":
                                             print("예약어_항목순환 : " + stack);
+                                            ret.Add(new Token(TokenType.FOR));
                                             break;
                                         case "block":
                                             print("예약어_블럭묶음 : " + stack);
+                                            ret.Add(new Token(TokenType.BLOCK_GROUP));
                                             break;
                                         default:
                                             print("식별자 : " + stack);
+                                            ret.Add(new Token(TokenType.IDENTIFIER, stack));
                                             break;
                                     }
                                 }
                             }
 
-                            switch (tokenRecognize(source[i])) {
+                            switch (TokenRecognize(source[i])) {
                                 case TokenType.STRING:
                                     if (string_mode) {
                                         string_mode = false;
@@ -145,12 +165,33 @@ namespace Mocca {
                                         keepLoop = false;
                                     }
                                     break;
+                                case TokenType.OPERATOR:
+                                    if (string_mode) {
+                                        stack += source[i];
+                                        i++;
+                                    } else {
+                                        print("연산자 : " + source[i]);
+                                        ret.Add(new Token(TokenType.OPERATOR, source[i]));
+                                        keepLoop = false;
+                                    }
+                                    break;
+                                case TokenType.ASSIGNER:
+                                    if (string_mode) {
+                                        stack += source[i];
+                                        i++;
+                                    } else {
+                                        print("대입 연산자 : " + source[i]);
+                                        ret.Add(new Token(TokenType.ASSIGNER, source[i]));
+                                        keepLoop = false;
+                                    }
+                                    break;
                                 default:
                                     if (string_mode) {
                                         stack += source[i];
                                         i++;
                                     } else {
                                         print("구분자 : " + source[i]);
+                                        ret.Add(new Token(TokenType.DIVIDER, source[i]));
                                         keepLoop = false;
                                     }
                                     break;
@@ -165,33 +206,53 @@ namespace Mocca {
                     }
                 }
             }
-            
+
+            return ret;
         }
 
-        private TokenType tokenRecognize(char src) {
-            if (src.Equals('+') || src.Equals('-') || src.Equals('*') || src.Equals('/') || src.Equals('=')) {
+        /*
+         * 토큰을 분석하고 연산자, 대입 연산자, 구분자, 문자열 토큰을 걸러낸다. 나머지는 우선 UNTYPED(12)로 처리한다. 
+         */
+        private TokenType TokenRecognize(char src) {
+            if (src.Equals('+') || src.Equals('-') || src.Equals('*') || src.Equals('/')) {
                 return TokenType.OPERATOR;
+            } else if (src.Equals('=')) {
+                return TokenType.ASSIGNER;
             } else if (src.Equals('(') || src.Equals(')') || src.Equals('{') || src.Equals('}') || src.Equals('[') || src.Equals(']') || src.Equals(',') || src.Equals(';')) {
                 return TokenType.DIVIDER;
             } else if (src.Equals('\"')) {
                 return TokenType.STRING;
             } else {
-                return TokenType.NORMAL;
+                return TokenType.UNTYPED;
             }
         }
 
-        public string getSource() {
+        /*
+         * 원본 소스를 가져온다.
+         */ 
+        public string GetSource() {
             return source;
         }
 
-        public void setSource(string source) {
+        /*
+         * 원본 소스를 수정한다.
+         */ 
+        public void SetSource(string source) {
             this.source = source;
         }
 
-        public Dictionary<string, string> getFileInfo() {
+        /*
+         * 파일 정보를 Dictionary로 돌려받는다.
+         * Key와 Value 모두 문자열로 반환된다.
+         */ 
+        public Dictionary<string, string> GetFileInfo() {
             return fileInfo;
         }
 
+        /*
+         * 디버깅용 출력 함수.
+         * IS_DEBUGGING이 true일때만 출력한다.
+         */ 
         void print(object a) {
             if(IS_DEBUGGING)
             Console.WriteLine(a);

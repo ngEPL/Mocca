@@ -33,7 +33,7 @@
             }
             while(logic_compare(loop_count,3,NOT_EQUAL)) {
                 cmd(print,textgen("아직 루프를",loop_count,"번 돌았습니다.");
-                eq(loop_count, 1, ADD);
+                loop_count = loop_count + 1;
             }
             for(fruits) {
                 cmd(print, textgen(LOOP_CNT, "은(는) 과일입니다."));

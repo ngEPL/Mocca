@@ -10,8 +10,12 @@ namespace Mocca
     {
         static void Main(string[] args)
         {
-            Parser p = new Parser("C:\\Users\\hj332\\Workspace\\EPL\\Example\\middle_lang.mocca", ParseMode.SOURCE_FILE);
-            p.parse();
+            Parser p = new Parser("..\\..\\..\\Example\\middle_lang.mocca", ParseMode.SOURCE_FILE);
+            var a = p.Parse(); // List<Token>
+            foreach(Token i in a) {
+                Console.WriteLine(i.GetType().ToString() + " 타입의 " + i.GetValue().ToString());
+            }
+            
         }
     }
 }
