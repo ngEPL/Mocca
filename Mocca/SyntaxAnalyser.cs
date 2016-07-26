@@ -14,7 +14,7 @@ namespace Mocca {
         }
 
         public class SyntaxAnalyser {
-            static bool IS_DEBUGGING = true; // 디버깅 모드 활성화 여부
+            static bool IS_DEBUGGING = false; // 디버깅 모드 활성화 여부
             static int PARSER_MINIMUM_VERSION = 1; // 분석기 최하위 호환 버전
 
             string source; // 원본 소스
@@ -119,7 +119,7 @@ namespace Mocca {
                                     stack = stack.Trim();
                                     int tempInt;
                                     if (int.TryParse(stack, out tempInt) != false) {
-                                        print("숫자 : " + stack);
+                                        print("숫자 : " + int.Parse(stack));
                                         ret.Add(new Token(TokenType.NUMBER, stack));
                                     } else if (!stack.Equals("") && stack.Trim().Length != 0 && stack != null) {
                                         // 예약어 체크
@@ -147,6 +147,14 @@ namespace Mocca {
                                             case "block":
                                                 print("예약어_블럭묶음 : " + stack);
                                                 ret.Add(new Token(TokenType.BLOCK_GROUP));
+                                                break;
+                                            case "true":
+                                                print("진리값 : " + stack);
+                                                ret.Add(new Token(TokenType.BOOL, true));
+                                                break;
+                                            case "false":
+                                                print("진리값 : " + stack);
+                                                ret.Add(new Token(TokenType.BOOL, false));
                                                 break;
                                             default:
                                                 print("식별자 : " + stack);

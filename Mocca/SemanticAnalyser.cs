@@ -7,14 +7,48 @@ using System.Threading.Tasks;
 namespace Mocca {
     namespace Analyser {
         public class SemanticAnalyser {
-            List<Token> token_list;
 
-            public SemanticAnalyser(List<Token> token_list) {
-                this.token_list = token_list;
+            private bool IS_DEBUGGING = true;
+
+            List<Token> token = new List<Token>();
+
+            public SemanticAnalyser(List<Token> tokenlist) {
+                this.token = tokenlist;
             }
 
             public void SemanticAnalyse() {
-                
+                List<Token> stack = new List<Token>();
+
+                for(int i = 0; i < token.Count; i++) {
+                    Token cursor = token[i];
+                    switch(cursor.GetType()) {
+                        case TokenType.BLOCK_GROUP:
+                            break; 
+                    }
+                }
+            }
+
+            /*
+             * 제시된 테스트 케이스를 검사하고, 오류 판정일 경우 해당하는 Exception을 던진다.
+             * 해당하는 Exception은 호출 부분에서 처리한다.
+             */ 
+            public void Check(MoccaException e, params bool[] test_cases) {
+                foreach(bool test in test_cases) {
+                    if(test) {
+                        continue;
+                    } else {
+                        throw e;
+                    }
+                }
+            }
+
+            /*
+             * 디버깅용 출력 함수.
+             * IS_DEBUGGING이 true일때만 출력한다.
+             */
+            void print(object a) {
+                if (IS_DEBUGGING)
+                    Console.WriteLine(a);
             }
         }
     }
