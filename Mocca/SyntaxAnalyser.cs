@@ -202,7 +202,7 @@ namespace Mocca {
                                             i += 2;
                                         } else {
                                             print("비교 연산자 : " + source[i] + source[i + 1]);
-                                            ret.Add(new Token(TokenType.COMPARER_2, source[i] + "" + source[i + 1]));
+                                            ret.Add(new Token(TokenType.COMPARER, source[i] + "" + source[i + 1]));
                                             keepLoop = false;
                                             i++;
                                         }

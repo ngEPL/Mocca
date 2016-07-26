@@ -8,19 +8,19 @@ namespace Mocca {
     public enum TokenType {
         OPERATOR,    // 0 연산자
         ASSIGNER,    // 1 대입 연산자
-        COMPARER,    // 2 비교 연산자 : 초과, 미만
-        COMPARER_2,  // 3 비교 연산자 : 이상, 이하, 일치, 불일치
-        DIVIDER,     // 3 구분자
-        STRING,      // 4 문자열
-        NUMBER,      // 5 숫자
-        IF,          // 6 만약
-        ELIF,        // 7 아니고 만약
-        ELSE,        // 8 아니면
-        FOR,         // 9 항목순환
-        WHILE,       // 10 조건순환
-        BLOCK_GROUP, // 11 블럭 묶음
-        IDENTIFIER,  // 12 식별자
-        UNTYPED      // 13 구분 안됨 (파싱 중 임시로 사용됨, 출력 결과에 미포함)
+        COMPARER,    // 2 비교 연산자
+        COMPARER_2,  // 3 2자 비교 연산자(파싱 중 임시로 사용됨, COMPARER로 합쳐져 출력됨)
+        DIVIDER,     // 4 구분자
+        STRING,      // 5 문자열
+        NUMBER,      // 6 숫자
+        IF,          // 7 만약
+        ELIF,        // 8 아니고 만약
+        ELSE,        // 9 아니면
+        FOR,         // 10 항목순환
+        WHILE,       // 11 조건순환
+        BLOCK_GROUP, // 12 블럭 묶음
+        IDENTIFIER,  // 13 식별자
+        UNTYPED      // 14 구분 안됨 (파싱 중 임시로 사용됨, 출력 결과에 미포함)
     }
 
     public class Token {
@@ -36,7 +36,7 @@ namespace Mocca {
             if (type == TokenType.IF || type == TokenType.ELIF || type == TokenType.ELSE || type == TokenType.FOR
             || type == TokenType.WHILE || type == TokenType.BLOCK_GROUP) {
                 this.type = type;
-                this.value = "NoneValue";
+                this.value = "None";
             } else throw new Exception(); // TODO: Exception 정의 후 추가해야 함
         }
 
