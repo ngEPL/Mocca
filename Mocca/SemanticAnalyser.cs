@@ -14,9 +14,7 @@ namespace Mocca {
             }
 
             public void SemanticAnalyse() {
-                foreach (Token i in token_list) {
-                    Console.WriteLine(i.GetType().ToString() + " 타입의 " + i.GetValue().ToString());
-                }
+                
             }
         }
     }

@@ -8,8 +8,8 @@ namespace Mocca {
     public enum TokenType {
         OPERATOR,    // 0 연산자
         ASSIGNER,    // 1 대입 연산자
-        COMPARER,    // 2 비교 연산자
-        COMPARER_2,  // 3 2자 비교 연산자(파싱 중 임시로 사용됨, COMPARER로 합쳐져 출력됨)
+        LOGIC,    // 2 논리 연산자
+        LOGIC_2,  // 3 2자 논리 연산자(파싱 중 임시로 사용됨, COMPARER로 합쳐져 출력됨)
         DIVIDER,     // 4 구분자
         STRING,      // 5 문자열
         NUMBER,      // 6 숫자

@@ -14,7 +14,7 @@ namespace Mocca {
         }
 
         public class SyntaxAnalyser {
-            static bool IS_DEBUGGING = false; // 디버깅 모드 활성화 여부
+            static bool IS_DEBUGGING = true; // 디버깅 모드 활성화 여부
             static int PARSER_MINIMUM_VERSION = 1; // 분석기 최하위 호환 버전
 
             string source; // 원본 소스
@@ -186,23 +186,23 @@ namespace Mocca {
                                             keepLoop = false;
                                         }
                                         break;
-                                    case TokenType.COMPARER:
+                                    case TokenType.LOGIC:
                                         if (string_mode) {
                                             stack += source[i];
                                             i++;
                                         } else {
-                                            print("비교 연산자 : " + source[i]);
-                                            ret.Add(new Token(TokenType.COMPARER, source[i]));
+                                            print("논리 연산자 : " + source[i]);
+                                            ret.Add(new Token(TokenType.LOGIC, source[i]));
                                             keepLoop = false;
                                         }
                                         break;
-                                    case TokenType.COMPARER_2:
+                                    case TokenType.LOGIC_2:
                                         if (string_mode) {
                                             stack = stack + source[i] + source[i + 1];
                                             i += 2;
                                         } else {
-                                            print("비교 연산자 : " + source[i] + source[i + 1]);
-                                            ret.Add(new Token(TokenType.COMPARER, source[i] + "" + source[i + 1]));
+                                            print("논리 연산자 : " + source[i] + source[i + 1]);
+                                            ret.Add(new Token(TokenType.LOGIC, source[i] + "" + source[i + 1]));
                                             keepLoop = false;
                                             i++;
                                         }
@@ -246,10 +246,12 @@ namespace Mocca {
                     if (src.Equals('=') && !source[count + 1].Equals('=')) {
                         return TokenType.ASSIGNER;
                     } else if (source[count + 1].Equals('=')) {
-                        return TokenType.COMPARER_2;
+                        return TokenType.LOGIC_2;
                     } else {
-                        return TokenType.COMPARER;
+                        return TokenType.LOGIC;
                     }
+                } else if((src.Equals('|') && source[count + 1].Equals('|')) || (src.Equals('&') && source[count + 1].Equals('&'))) {
+                    return TokenType.LOGIC_2;
                 } else {
                     return TokenType.UNTYPED;
                 }
