@@ -25,11 +25,11 @@ namespace Mocca {
     /*
      * 블록 묶음 구조 선언 오류.
      */ 
-    public class MoccaBlockGroupException : MoccaException {
-        public MoccaBlockGroupException() {
-            error_name = "블록 묶음 구조 선언 오류";
+    public class MoccaSyntaxException : MoccaException {
+        public MoccaSyntaxException(string error_char) {
+            error_name = "문법 오류";
             error_type = MoccaError.SYNTAX_ERROR;
-            error_desc = "블록 묶음의 선언 방법이 올바르지 않습니다. 코드를 확인하세요.";
+            error_desc = "'" + error_char + "'이(가) 필요합니다.";
         }
     }
 

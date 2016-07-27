@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataType.cs" />
+    <Compile Include="MoccaException.cs" />
     <Compile Include="SemanticAnalyser.cs" />
     <Compile Include="SyntaxAnalyser.cs" />
     <Compile Include="Program.cs" />
