@@ -17,7 +17,13 @@ namespace Mocca {
             }
 
             public void Analyse() {
-                
+                var root = new TreeNode("translation-unit");
+                for(int i = 0; i < token.Count; i++) {
+                    var cursor = this.token[i];
+                    switch(cursor.GetType()) {
+                        
+                    }
+                }
             }
 
             /*

@@ -45,11 +45,12 @@
   <ItemGroup>
     <Compile Include="DataType.cs" />
     <Compile Include="MoccaException.cs" />
-    <Compile Include="SemanticAnalyser.cs" />
     <Compile Include="SyntaxAnalyser.cs" />
+    <Compile Include="LexicalAnalyser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token.cs" />
+    <Compile Include="TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -14,7 +14,7 @@ namespace Mocca {
         }
 
         public class LexicalAnalyser {
-            static bool IS_DEBUGGING = false; // 디버깅 모드 활성화 여부
+            static bool IS_DEBUGGING = true; // 디버깅 모드 활성화 여부
             static int PARSER_MINIMUM_VERSION = 1; // 분석기 최하위 호환 버전
 
             string source; // 원본 소스
@@ -144,7 +144,7 @@ namespace Mocca {
                                                 print("예약어_항목순환 : " + stack);
                                                 token.Add(new Token(TokenType.FOR));
                                                 break;
-                                            case "block":
+                                            case "blockgroup":
                                                 print("예약어_블럭묶음 : " + stack);
                                                 token.Add(new Token(TokenType.BLOCK_GROUP));
                                                 break;

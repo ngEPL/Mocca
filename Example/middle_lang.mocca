@@ -10,7 +10,7 @@
         </modules>
     </head>
     <code>
-        block(1,2) {
+        blockgroup(setVariable,1,2) {
             set(name, "홍승환");
             set(isHuman, true);
             set(age, 20);
@@ -19,14 +19,14 @@
             set(students,[(20163178,"홍기훈"),(20163179,"홍승환"),(20163180,"홍자현"),(20163181,"황수진")]);
         }
 
-        block(3,7) {
+        blockgroup(printAll,3,7) {
             cmd(print,"안녕, 세상아!");
             cmd(print,10);
             cmd(print,textgen("당신의 이름은","name","입니다."));
             cmd(print,textgen("현재 시간은",modcall(time,hour(24_MODE)),"시입니다."));
         }
 
-        block(5,10) {
+        blockgroup(logicAndLoop,5,10) {
             if(logic_compare(age, 14, !=)) {
                 cmd(print,"아직 많이 어리네요.");
             } elif(logic_compare(age, 19, &lt;)) {

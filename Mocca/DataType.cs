@@ -20,8 +20,8 @@ namespace Mocca {
          * x 좌표과 y 좌표가 포함되어 있으며, MoccaSuite를 포함한다.
          */ 
         class MoccaBlockGroup {
-            public int x = -1;
-            public int y = -1;
+            public int x = 0;
+            public int y = 0;
             public List<MoccaSuite> suite = null;
         }
 

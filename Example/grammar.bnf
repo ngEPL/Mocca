@@ -1,0 +1,81 @@
+translation_unit      = source_file
+					  | source_line
+				      ;
+
+source_file           = blockgroup source_file
+					  | blockgroup
+					  ;
+
+source_line			  = statement_decl
+					  ;
+
+blockgroup            = "blockgroup" param_list cmd_block
+				      ;
+
+param_list            = "(" params ")"
+					  ;
+
+params                = exp "," params
+					  | exp
+					  ;
+
+exp					  = function_name param_list
+					  | unit
+					  ;
+
+function_name         = identifier
+					  ;
+
+unit                  = number
+					  | string
+					  | identifier
+					  ;
+
+cmd_block             = "{" statements "}"
+					  ;
+
+statements            = statement_decl statements
+					  | statement_decl
+					  ;
+
+statement_decl		  = statement ";"
+					  ;
+
+statement             = exp
+					  | logic_statement
+					  | for_statement
+					  | while_statement
+					  ;
+
+logic_statement       = if_statement
+					  | if_statement elif_chain
+					  | if_statement elif_chain else_statement
+                      ;
+
+if_statement          = "if" param_list cmd_block
+					  ;
+
+elif_chain			  = elif_statement elif_chain
+					  | elif_statement
+					  ;
+
+elif_statement		  = "elif" param_list cmd_block
+					  ;
+
+else_statement	      = "else" cmd_block
+					  ;
+
+for_statement         = "for" param_list cmd_block
+					  ;
+
+while_statement	      = "while" param_list cmd_block
+					  ;
+
+number				  = "already tokenized"
+					  ;
+
+string				  = "already tokenized"
+					  ;
+
+identifier			  = "already tokenized"
+					  ;
