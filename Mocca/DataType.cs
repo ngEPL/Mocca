@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mocca {
     namespace DataType {
-        enum MoccaType {
+        public enum MoccaType {
             NUMBER,
             STRING,
             BOOL,
@@ -19,7 +19,7 @@ namespace Mocca {
          * 하나의 블록 그룹을 의미한다.
          * x 좌표과 y 좌표가 포함되어 있으며, MoccaSuite를 포함한다.
          */ 
-        class MoccaBlockGroup {
+        public class MoccaBlockGroup {
             public int x = 0;
             public int y = 0;
             public List<MoccaSuite> suite = null;
@@ -29,13 +29,13 @@ namespace Mocca {
          * 명령과 논리의 집합을 의미한다.
          * 빈 클래스로써, 단일 명령 단위는 모두 이 클래스를 상속받는다.
          */ 
-        class MoccaSuite { }
+        public class MoccaSuite { }
 
         /*
          * 명령을 의미한다.
          * 명령 이름과 인자로 구성되어 있다.
          */ 
-        class MoccaCommand : MoccaSuite {
+        public class MoccaCommand : MoccaSuite {
             public string commandName = null;
             public List<object> commandArgs = null;
         }
@@ -44,7 +44,7 @@ namespace Mocca {
          * 변수를 의미한다.
          * 이름과 값, 타입이 정해져있다.
          */ 
-        class MoccaVariable : MoccaSuite {
+        public class MoccaVariable : MoccaSuite {
             public string name = null;
             public object value = null;
             public MoccaType type = MoccaType.UNTYPED;
@@ -54,7 +54,7 @@ namespace Mocca {
          * 논리 연산을 의미한다.
          * 전위, 후위 요소와 연산자를 포함한다.
          */ 
-        class MoccaExpression : MoccaSuite {
+        public class MoccaExpression : MoccaSuite {
             public object a = null;
             public object b = null;
             public string logic_op = null;
@@ -64,7 +64,7 @@ namespace Mocca {
          * if-elif-else 체인을 의미한다. 
          * 체인이 무조건 완성되지 않아도 성립한다.
          */ 
-        class MoccaLogicChain : MoccaSuite {
+        public class MoccaLogicChain : MoccaSuite {
             public List<MoccaLogic> chain = new List<MoccaLogic>();
         }
 
@@ -73,7 +73,7 @@ namespace Mocca {
          * if, elif, else가 존재할 수 있으며, MoccaLogicChain으로 연결된다.
          * MoccaSuite를 상속하지 않아, 블록 구조에 바로 들어갈 수 없다.
          */ 
-        class MoccaLogic {
+        public class MoccaLogic {
             public string keyword = null;
             public MoccaExpression expression = null;
             public List<MoccaSuite> cmd_list = new List<MoccaSuite>();
@@ -83,7 +83,7 @@ namespace Mocca {
          * while 반복문을 의미한다.
          * 조건문과 그에 해당하는 MoccaSuite를 포함한다.
          */ 
-        class MoccaWhile : MoccaSuite {
+        public class MoccaWhile : MoccaSuite {
             public MoccaExpression expression = null;
             public List<MoccaSuite> cmd_list = null;
         }
@@ -92,7 +92,7 @@ namespace Mocca {
          * for 반복문(Inhanced)을 의미한다.
          * iterator와 그에 해당하는 MoccaSuite를 포함한다.
          */ 
-        class MoccaFor : MoccaSuite {
+        public class MoccaFor : MoccaSuite {
             public MoccaVariable iter = null;
             public List<MoccaSuite> cmd_list = new List<MoccaSuite>();
         }
@@ -101,7 +101,7 @@ namespace Mocca {
          * 계산식을 의미한다.
          * 전위, 후위 요소와 연산자를 포함한다.
          */ 
-        class MoccaEquation : MoccaSuite {
+        public class MoccaEquation : MoccaSuite {
             public object a = null;
             public object b = null;
             public string op = null;

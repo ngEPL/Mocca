@@ -1,4 +1,4 @@
-<mocca version="1">
+﻿<mocca version="1">
     <head>
         <meta name="title" field="안녕, 세상아!"/>
         <meta name="author" field="홍승환"/>
@@ -11,32 +11,32 @@
     </head>
     <code>
         blockgroup(setVariable,1,2) {
-            set(name, "홍승환");
+            set(hello, "홍승환");
             set(isHuman, true);
             set(age, 20);
             set(loop_count, 0);
             set(fruits, ["사과","배","오렌지","수박","참외"]);
-            set(students,[(20163178,"홍기훈"),(20163179,"홍승환"),(20163180,"홍자현"),(20163181,"황수진")]);
+            set(students,{(20163178,"홍기훈"),(20163179,"홍승환"),(20163180,"홍자현"),(20163181,"황수진")});
         }
 
         blockgroup(printAll,3,7) {
             cmd(print,"안녕, 세상아!");
             cmd(print,10);
             cmd(print,textgen("당신의 이름은","name","입니다."));
-            cmd(print,textgen("현재 시간은",modcall(time,hour(24_MODE)),"시입니다."));
+            cmd(print,textgen("현재 시간은",modcall(time,hour(MODE_24)),"시입니다."));
         }
 
         blockgroup(logicAndLoop,5,10) {
-            if(logic_compare(age, 14, !=)) {
+            if(logic_compare(age, 14, NOT_EQUAL)) {
                 cmd(print,"아직 많이 어리네요.");
-            } elif(logic_compare(age, 19, &lt;)) {
+            } elif(logic_compare(age, 19, LOWER_THAN)) {
                 cmd(print,"아직 술은 못 마시네요.");
             } else {
                 cmd(print,"술을 마실 수 있는 나이네요.");
             }
-            while(logic_compare(loop_count,3,!=)) {
+            while(logic_compare(loop_count,3,NOT_EQUAL)) {
                 cmd(print,textgen("아직 루프를",loop_count,"번 돌았습니다.");
-                set(loop_count,eq(loop_count, 1, +));
+                set(loop_count,eq(loop_count, 1, ADD));
             }
             for(fruits) {
                 cmd(print, textgen(__loopcnt, "은(는) 과일입니다."));
