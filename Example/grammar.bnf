@@ -1,73 +1,39 @@
-translation_unit        = source_file
-						| source_line
-						;
+<% @TinyPG Namespace="Mocca" %>
 
-source_file           	= blockgroup source_file
-						| blockgroup
-						;
+// Terminals:
+BRACKETOPEN      	-> @"\(";
+BRACKETCLOSE     	-> @"\)";
+MIDDLEOPEN     		-> @"\{";
+MIDDLECLOSE			-> @"\}";
+COMMA				-> @"\,";
+SQUAREOPEN			-> @"\[";
+SQUARECLOSE			-> @"\]";
+SEMICOLON        	-> @";";
+IDENTIFIER        	-> @"[a-zA-Z_][a-zA-Z0-9_]*";
+NUMBER	      	    -> @"[0-9]+";
+EOF               	-> @"^$";
+STRING             	-> @"@?\""(\""\""|[^\""])*\""";
+BLOCKGROUP			-> @"blockgroup";
 
-source_line				= statement_decl
-						;
+[Skip]
+WHITESPACE        	-> @"\s+";
 
-blockgroup            	= "blockgroup" param_list cmd_block
-						;
+[Skip]
+COMMENTLINE       	-> @"//[^\n]*\n?";
 
-param_list            	= "(" params ")"
-						;
+[Skip]
+COMMENTBLOCK      	-> @"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/";
 
-params                	= exp "," params
-						| exp
-						;
-
-exp						= function_name param_list
-						| unit
-						;
-
-function_name         	= identifier
-						;
-
-unit                    = number
-						| string
-						| identifier
-						;
-
-cmd_block             	= "{" statements "}"
-						;
-
-statements            	= statement_decl statements
-						| statement_decl
-						;
-
-statement_decl			= statement ";"
-						;
-
-statement             	= exp
-						| logic_statement
-						| for_statement
-						| while_statement
-						;
-
-logic_statement       	= if_statement
-						| if_statement elif_chain
-						| if_statement else_statement
-						| if_statement elif_chain else_statement
-                      	;
-
-if_statement          	= "if" param_list cmd_block
-						;
-
-elif_chain				= elif_statement elif_chain
-						| elif_statement
-						;
-
-elif_statement			= "elif" param_list cmd_block
-						;
-
-else_statement	      	= "else" cmd_block
-						;
-
-for_statement         	= "for" param_list cmd_block
-						;
-
-while_statement	      	= "while" param_list cmd_block
-						;
+// Production lines LL(1):
+Start			-> Blockgroup* EOF;
+Blockgroup		-> BLOCKGROUP Params Block;
+Params			-> BRACKETOPEN Param BRACKETCLOSE;
+Param			-> Expression (COMMA Expression)*;
+Expression		-> Symbol | Atom;
+Symbol			-> IDENTIFIER (Params)*;
+Atom			-> NUMBER | STRING | Array | Dictionary;
+Array			-> SQUAREOPEN Param SQUARECLOSE;
+Dictionary		-> MIDDLEOPEN Params (COMMA Params)* MIDDLECLOSE;
+Block			-> MIDDLEOPEN StatementList* MIDDLECLOSE;
+StatementList	-> Statement*;
+Statement		-> IDENTIFIER Params (Block)* (SEMICOLON)*;

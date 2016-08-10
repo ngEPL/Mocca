@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Mocca.DataType;
 
 namespace Mocca {
     public enum CompileMode {
@@ -13,13 +14,13 @@ namespace Mocca {
     }
 
     public class Compiler {
-        float COMPILER_MINIMUM_VERSION = 1.0f;
+        public readonly float COMPILER_MINIMUM_VERSION = 1.0f;
 
         Dictionary<string, string> fileInfo = new Dictionary<string, string>();
         List<string> extModules = new List<string>();
 
         string filePath;
-        string source = null; 
+        string source;
 
         public Compiler(String source, CompileMode mode) {
             switch(mode) {
@@ -85,10 +86,11 @@ namespace Mocca {
             }
         }
 
-        public ParseTree Parse() {
+        public object Parse() {
             Scanner s = new Scanner();
             Parser p = new Parser(s);
-            return p.Parse(source);
+            ParseTree t = p.Parse(source);
+            return t.Eval();
         }
     }
 }

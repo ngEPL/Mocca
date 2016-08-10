@@ -51,6 +51,32 @@ namespace Mocca {
         }
 
         /*
+         * 배열을 의미한다.
+         * 이름과 MoccaVariable의 배열을 가진다.
+         */ 
+        public class MoccaArray : MoccaSuite {
+            public string name = null;
+            public MoccaVariable[] value = null;
+        }
+
+        /*
+         * 튜플을 의미한다.
+         * 키와 값의 쌍으로 되어있다. 키는 문자열만이 성립한다.
+         */ 
+        public class MoccaTuple : MoccaSuite {
+            public string key = null;
+            public object value = null;
+        }
+
+        /*
+         * 
+         */ 
+        public class MoccaDictionary : MoccaSuite {
+            public string name = null;
+            public MoccaTuple[] value = null;
+        }
+
+        /*
          * 논리 연산을 의미한다.
          * 전위, 후위 요소와 연산자를 포함한다.
          */ 
