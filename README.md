@@ -48,3 +48,5 @@ Mocca는 MIT License 하에 배포됩니다. 출처와 저작권을 명시하는
 개발 정보
 ------
 현재 이 프로젝트는 미래창조과학부에서 주관하는 __2016년도 창의도전형 SW R&D 지원 사업__ 의 지원을 받고 있습니다. 자세한 정보는 [링크를 참조하십시오.](http://www.swrnd.or.kr/korean/viewtopic.php?t=1715)
+
+[월간 개발 보고서 (7월)](./Documentation/Monthly/log_april.md)
