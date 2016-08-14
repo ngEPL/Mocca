@@ -1,3 +1,5 @@
 .vs/
 Mocca/bin/
 Mocca/obj/
+.DS_Store
+Mocca.userprefs
