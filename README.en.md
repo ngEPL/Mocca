@@ -4,6 +4,7 @@ Mocca
 Introduction
 ------
 _한국어로 쓰여진 문서가 존재합니다. [여기를 참조하십시오.](README.md)_
+
 Mocca is an intermediate language which is specialized for making block-coding-based EPL(Educational Programming Language) based on C#. It started for ngEPL, and opened under MIT License.
 
 With internal library, Mocca compiles one ```.mocca``` file to many other languages. Without messing the language structure with lots of ```import```, Mocca compiles with constructing language to nice and clear structure which can work with CS education.
@@ -27,7 +28,7 @@ No external library required. Mocca works on all environment which C# can run.
 
 Importing Mocca to yours
 ------
-This project includes ```Mocca.sln``` on root. You can open this with Visual Studio, MonoDevelop, Tamarin Studio, etc. Copy ```.cs``` files to your own project to import.
+This project includes ```Mocca.sln``` on root. You can open this with Visual Studio, MonoDevelop, Xamarin Studio, etc. Copy ```.cs``` files to your own project to import.
 
 _Now ```.dll``` release version preparing._
 
@@ -44,7 +45,7 @@ Compiler c = new Compiler("<source file directory>", CompileMode.FILE_PASS);
 var result = c.Parse();
 ```
 
-We have solution for using pure Mocca source file. You can find this [here.](http://github.com/ngEPL/Mocca)
+We have solution for using pure Mocca source file. You can find this on [our Wiki.](http://github.com/ngEPL/Mocca)
 
 License
 ------
