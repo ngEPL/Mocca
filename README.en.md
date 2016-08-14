@@ -1,4 +1,4 @@
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE.md)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE.md) [![Travis CI](https://api.travis-ci.org/ngEPL/Mocca.svg)](https://travis-ci.org/ngEPL/Mocca)
 Mocca
 ======
 Introduction
