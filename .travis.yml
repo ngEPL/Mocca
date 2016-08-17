@@ -1,2 +1,4 @@
 language: csharp
 solution: Mocca.sln
+notifications:
+  slack: swrnd-newepl:kuJ6gzyrgIkEVPjf8UgcI8sM
