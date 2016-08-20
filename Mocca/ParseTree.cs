@@ -262,6 +262,11 @@ namespace Mocca {
 				param = (List<object>)this.GetValue(tree, TokenType.Params, 0);
 			}
 
+			MoccaCommand cmd = new MoccaCommand();
+			cmd.commandName = identifier;
+			cmd.commandArgs = param;
+
+			return cmd;
         }
 
         protected virtual object EvalAtom(ParseTree tree, params object[] paramlist) {
