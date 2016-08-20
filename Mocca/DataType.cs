@@ -69,7 +69,8 @@ namespace Mocca {
         }
 
         /*
-         * 
+         * 사전을 의미한다.
+         * 이름과 튜플의 집합을 의미한다.
          */ 
         public class MoccaDictionary : MoccaSuite {
             public string name = null;

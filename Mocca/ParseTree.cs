@@ -209,14 +209,14 @@ namespace Mocca {
 		 */ 
         protected virtual object EvalBlockgroup(ParseTree tree, params object[] paramlist) {
             MoccaBlockGroup ret = new MoccaBlockGroup();
+
+			// Taking params
             List<object> param = new List<object>();
-            int i = 0;
-            while (this.GetValue(tree, TokenType.Params, i) != null) {
-                param.Add(this.GetValue(tree, TokenType.Params, i));
-                i++;
-            }
+			var paramsValue = this.GetValue(tree, TokenType.Params, 0);
+
+			// TODO: Taking code block
             List<MoccaSuite> code = new List<MoccaSuite>();
-			// TODO: Need to define 'ret'
+
 			return ret;
         }
 
@@ -224,19 +224,44 @@ namespace Mocca {
 		 * ( param , param , param )
 		 */ 
         protected virtual object EvalParams(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+			return this.GetValue(tree, TokenType.Param, 0);
         }
 
+		/*
+		 * Expression, Expression, Expression...
+		 */ 
         protected virtual object EvalParam(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+			List<object> ret = new List<object>();
+			var i = 0;
+			while (this.GetValue(tree, TokenType.Expression, i) != null) {
+				ret.Add(this.GetValue(tree, TokenType.Expression, i));
+				i++;
+			}
+			return ret;
         }
 
+		/*
+		 * Symbol | Atom
+		 */ 
         protected virtual object EvalExpression(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+			if (this.GetValue(tree, TokenType.Symbol, 0) != null) {
+				return this.GetValue(tree, TokenType.Symbol, 0);
+			} else {
+				return this.GetValue(tree, TokenType.Atom, 0);
+			}
         }
 
+		/*
+		 * IDENTIFIER (Params)*;
+		 */ 
         protected virtual object EvalSymbol(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+			string identifier = (string)this.GetValue(tree, TokenType.IDENTIFIER, 0);
+			List<object> param = null;
+
+			if (this.GetValue(tree, TokenType.Params, 0) != null) {
+				param = (List<object>)this.GetValue(tree, TokenType.Params, 0);
+			}
+
         }
 
         protected virtual object EvalAtom(ParseTree tree, params object[] paramlist) {
