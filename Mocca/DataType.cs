@@ -56,7 +56,7 @@ namespace Mocca {
          */ 
         public class MoccaArray : MoccaSuite {
             public string name = null;
-            public MoccaVariable[] value = null;
+			public List<object> value = null;
         }
 
         /*

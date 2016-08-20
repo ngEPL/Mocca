@@ -192,6 +192,7 @@ namespace Mocca {
         /*
          * this.GetValue(tree, TokenType.MultExpr, i++);
          * $MultExpr[i++]
+         * returns List<MoccaBlockGroup>
          */
 
         protected virtual object EvalStart(ParseTree tree, params object[] paramlist) {
@@ -206,6 +207,7 @@ namespace Mocca {
 
 		/*
 		 * blockgroup Params Block
+		 * returns MoccaBlockGroup
 		 */ 
         protected virtual object EvalBlockgroup(ParseTree tree, params object[] paramlist) {
             MoccaBlockGroup ret = new MoccaBlockGroup();
@@ -222,6 +224,7 @@ namespace Mocca {
 
 		/*
 		 * ( param , param , param )
+		 * returns List<object>
 		 */ 
         protected virtual object EvalParams(ParseTree tree, params object[] paramlist) {
 			return this.GetValue(tree, TokenType.Param, 0);
@@ -229,6 +232,7 @@ namespace Mocca {
 
 		/*
 		 * Expression, Expression, Expression...
+		 * returns List<object>
 		 */ 
         protected virtual object EvalParam(ParseTree tree, params object[] paramlist) {
 			List<object> ret = new List<object>();
@@ -242,6 +246,7 @@ namespace Mocca {
 
 		/*
 		 * Symbol | Atom
+		 * returns object
 		 */ 
         protected virtual object EvalExpression(ParseTree tree, params object[] paramlist) {
 			if (this.GetValue(tree, TokenType.Symbol, 0) != null) {
@@ -253,6 +258,7 @@ namespace Mocca {
 
 		/*
 		 * IDENTIFIER (Params)*;
+		 * returns MoccaCommand
 		 */ 
         protected virtual object EvalSymbol(ParseTree tree, params object[] paramlist) {
 			string identifier = (string)this.GetValue(tree, TokenType.IDENTIFIER, 0);
@@ -269,43 +275,97 @@ namespace Mocca {
 			return cmd;
         }
 
+		/*
+		 * NUMBER | STRING | Array | Dictionary
+		 * returns object
+		 */ 
         protected virtual object EvalAtom(ParseTree tree, params object[] paramlist) {
             if(this.GetValue(tree, TokenType.NUMBER, 0) == null &&
                this.GetValue(tree, TokenType.STRING, 0) != null &&
                this.GetValue(tree, TokenType.Array, 0) != null &&
                this.GetValue(tree, TokenType.Dictionary, 0) != null) {
-                return this.GetValue(tree, TokenType.NUMBER, 0);
+				float i = 0;
+				return float.TryParse((string)this.GetValue(tree, TokenType.NUMBER, 0), out i);
             } else if (this.GetValue(tree, TokenType.NUMBER, 0) != null &&
                this.GetValue(tree, TokenType.STRING, 0) == null &&
                this.GetValue(tree, TokenType.Array, 0) != null &&
                this.GetValue(tree, TokenType.Dictionary, 0) != null) {
-                return this.GetValue(tree, TokenType.STRING, 0);
+				return (string)this.GetValue(tree, TokenType.STRING, 0);
             } else if(this.GetValue(tree, TokenType.NUMBER, 0) != null &&
              this.GetValue(tree, TokenType.STRING, 0) != null &&
              this.GetValue(tree, TokenType.Array, 0) == null &&
              this.GetValue(tree, TokenType.Dictionary, 0) != null) {
-                return this.GetValue(tree, TokenType.Array, 0);
+				return this.GetValue(tree, TokenType.Array, 0);
             } else {
                 return this.GetValue(tree, TokenType.Dictionary, 0);
             }
         }
 
-        protected virtual object EvalArray(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+		/*
+		 * [ Param ]
+		 * returns MoccaArray
+		 */ 
+		protected virtual object EvalArray(ParseTree tree, params object[] paramlist) {
+			List<object> param = (List<object>)this.GetValue(tree, TokenType.Param, 0);
+			List<object> variables = new List<object>();
+			foreach (var i in param) {
+				Type cursor = i.GetType();
+				if (cursor.Equals(typeof(string))) {
+					variables.Add(new MoccaVariable() { name = "__none", value = i, type = MoccaType.STRING });
+				} else if (cursor.Equals(typeof(float))) {
+					variables.Add(new MoccaVariable() { name = "__none", value = i, type = MoccaType.NUMBER });
+				} else if (cursor.Equals(typeof(MoccaArray))) {
+					variables.Add((MoccaArray)i);
+				} else if (cursor.Equals(typeof(MoccaDictionary))) {
+					variables.Add((MoccaDictionary)i);
+				} else if (cursor.Equals(typeof(MoccaCommand))) {
+					variables.Add((MoccaCommand)i);
+				} else {
+					// TODO: Throws MoccaException when i is not compromised with Mocca
+					// For now just pass away
+					variables.Add(i);
+				}
+			}
+
+			MoccaArray ret = new MoccaArray();
+			ret.name = "__ready";
+			ret.value = param;
+			return param;
         }
 
+		/*
+		 * { Params , Params , Params... }
+		 * returns MoccaDictionary
+		 */ 
         protected virtual object EvalDictionary(ParseTree tree, params object[] paramlist) {
             throw new NotImplementedException();
         }
 
+		/*
+		 * { StatementList }
+		 * or
+		 * { }
+		 * returns List<MoccaSuite>
+		 */ 
         protected virtual object EvalBlock(ParseTree tree, params object[] paramlist) {
             throw new NotImplementedException();
         }
 
+		/*
+		 * Statement Statement Statement...
+		 * returns List<MoccaSuite>
+		 */ 
         protected virtual object EvalStatementList(ParseTree tree, params object[] paramlist) {
             throw new NotImplementedException();
         }
 
+		/*
+		 * IDENTIFIER Params SEMICOLON
+		 * or
+		 * IDENTIFIER Params Block
+		 * * SEMICOLON after Block will be allowed
+		 * returns MoccaSuite::Something
+		 */ 
         protected virtual object EvalStatement(ParseTree tree, params object[] paramlist) {
             throw new NotImplementedException();
         }
