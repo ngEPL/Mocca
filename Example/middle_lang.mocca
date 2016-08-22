@@ -39,7 +39,7 @@
                 set(loop_count,eq(loop_count, 1, ADD));
             }
             for(fruits) {
-                cmd(print, textgen(__loopcnt, "은(는) 과일입니다."));
+                cmd(print, textgen(__iterator, "은(는) 과일입니다."));
             }
         }
     </code>

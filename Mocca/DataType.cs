@@ -20,6 +20,7 @@ namespace Mocca {
          * x 좌표과 y 좌표가 포함되어 있으며, MoccaSuite를 포함한다.
          */ 
         public class MoccaBlockGroup {
+			public string name = null;
             public int x = 0;
             public int y = 0;
             public List<MoccaSuite> suite = null;
@@ -66,6 +67,11 @@ namespace Mocca {
         public class MoccaTuple : MoccaSuite {
             public string key = null;
             public object value = null;
+
+			public MoccaTuple(string key, object value) {
+				this.key = key;
+				this.value = value;
+			}
         }
 
         /*
@@ -74,7 +80,7 @@ namespace Mocca {
          */ 
         public class MoccaDictionary : MoccaSuite {
             public string name = null;
-            public MoccaTuple[] value = null;
+            public List<MoccaTuple> value = null;
         }
 
         /*
@@ -120,7 +126,7 @@ namespace Mocca {
          * iterator와 그에 해당하는 MoccaSuite를 포함한다.
          */ 
         public class MoccaFor : MoccaSuite {
-            public MoccaVariable iter = null;
+            public object iter = null;
             public List<MoccaSuite> cmd_list = new List<MoccaSuite>();
         }
         

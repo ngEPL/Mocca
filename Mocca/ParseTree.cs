@@ -334,12 +334,28 @@ namespace Mocca {
         }
 
 		/*
-		 * { Params , Params , Params... }
+		 * { Params , Params , Params(List<object>... }
 		 * returns MoccaDictionary
 		 */ 
         protected virtual object EvalDictionary(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
-        }
+			MoccaDictionary ret = new MoccaDictionary();
+
+			List<object> param = new List<object>();
+			var i = 0;
+			while (this.GetValue(tree, TokenType.Params, i) != null) {
+				param.Add(this.GetValue(tree, TokenType.Params, i));
+				i++;
+			}
+
+			foreach (object j in param) {
+				List<object> cursor = (List<object>)j;
+				string key = (string)cursor[0];
+				object value = cursor[1];
+				ret.value.Add(new MoccaTuple(key, value));
+			}
+
+			return ret;
+		}
 
 		/*
 		 * { StatementList }
