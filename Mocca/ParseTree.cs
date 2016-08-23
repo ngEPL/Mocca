@@ -388,9 +388,35 @@ namespace Mocca {
 		 * IDENTIFIER Params Block
 		 * * SEMICOLON after Block will be allowed
 		 * returns MoccaSuite::Something
-		 */ 
+		 */
+		List<string> parse_expected = new List<string>();
+		List<MoccaLogic> temp_logic = new List<MoccaLogic>();
         protected virtual object EvalStatement(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+			MoccaSuite ret = new MoccaSuite();
+
+			string identifier = (string)this.GetValue(tree, TokenType.IDENTIFIER, 0);
+			List<object> param = (List<object>)this.GetValue(tree, TokenType.Params, 0);
+			if (this.GetValue(tree, TokenType.Block, 0) != null) {
+				List<MoccaSuite> block = (List<MoccaSuite>)this.GetValue(tree, TokenType.Block, 0);
+			}
+
+			switch (identifier) {
+				case "if":
+					break;
+				case "elif":
+					break;
+				case "else":
+					break;
+				case "while":
+					break;
+				case "for":
+					break;
+				default:
+					break;
+			}
+
+
+			return ret;
         }
 
 
