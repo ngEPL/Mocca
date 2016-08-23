@@ -364,7 +364,8 @@ namespace Mocca {
 		 * returns List<MoccaSuite>
 		 */ 
         protected virtual object EvalBlock(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+			List<MoccaSuite> ret = (List<MoccaSuite>)this.GetValue(tree, TokenType.StatementList, 0);
+			return ret;
         }
 
 		/*
@@ -372,7 +373,13 @@ namespace Mocca {
 		 * returns List<MoccaSuite>
 		 */ 
         protected virtual object EvalStatementList(ParseTree tree, params object[] paramlist) {
-            throw new NotImplementedException();
+			List<MoccaSuite> ret = new List<MoccaSuite>();
+			var i = 0;
+			while (this.GetValue(tree, TokenType.Statement, i) != null) {
+				ret.Add((MoccaSuite)this.GetValue(tree, TokenType.Statement, i));
+				i++;
+			}
+			return ret;
         }
 
 		/*
