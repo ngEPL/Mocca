@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mocca by ngEPL</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Mocca</h1>
+        <p>Nice Intermediate language for block coding tool, or CS education system. Developed for ngEPL.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/ngEPL/Mocca" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/ngEPL/Mocca/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/ngEPL/Mocca/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p><a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a> <a href="https://travis-ci.org/ngEPL/Mocca"><img src="https://api.travis-ci.org/ngEPL/Mocca.svg" alt="Travis CI"></a></p>
+
+<h2>
+<a id="개요" class="anchor" href="#%EA%B0%9C%EC%9A%94" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>개요</h2>
+
+<p><em>You can find README written by English. <a href="README.en.md">Check here.</a></em></p>
+
+<p>Mocca는 C# 기반의 블록 코딩 기반 EPL(Educational Programming Language, 교육용 프로그래밍 언어) 제작에 최적화된 중간 언어입니다. ngEPL을 위하여 개발이 시작되었으며, MIT License로 공개되어 누구나 사용할 수 있습니다.
+내부 자체 라이브러리를 통해서, Mocca는 하나의 파일을 다양한 언어로 변환할 수 있습니다. 많은 <code>import</code>로 언어 구조를 망가뜨리지 않고, 교육에 적합한 간단하고 명확한 구조로 언어를 재구성해 변환합니다.
+의존성 없이 독립된 C# 라이브러리의 형태를 하고 있으며, <a href="https://www.xamarin.com">Xamarin</a>과 <a href="http://www.mono-project.com">Mono</a>에서도 작동하여, <a href="http://unity3d.com">Unity Engine</a>과 같은 다양한 C# 기반 환경에서 작동합니다.</p>
+
+<h2>
+<a id="변환-언어" class="anchor" href="#%EB%B3%80%ED%99%98-%EC%96%B8%EC%96%B4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>변환 언어</h2>
+
+<p>현재, Mocca가 기본적으로 지원하거나, 지원을 목표하는 언어는 다음과 같습니다.</p>
+
+<ul>
+<li>Python</li>
+<li>Javascript</li>
+<li>C#</li>
+<li>Java</li>
+</ul>
+
+<p><em>이외의 언어는 Mocca 확장 모듈을 제작하여 직접 추가하거나, 개발 계획의 수정으로 추가될 수 있습니다.</em></p>
+
+<h2>
+<a id="의존성" class="anchor" href="#%EC%9D%98%EC%A1%B4%EC%84%B1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>의존성</h2>
+
+<p>별도 외부 라이브러리로의 의존성은 존재하지 않으며, C#이 실행 가능한 환경에서 모두 실행될 수 있습니다.</p>
+
+<h2>
+<a id="프로젝트-적용-방법" class="anchor" href="#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%A0%81%EC%9A%A9-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>프로젝트 적용 방법</h2>
+
+<p>이 프로젝트는 루트 폴더에 <code>Mocca.sln</code>을 포함하고 있습니다. 이 파일을 Visual Studio, MonoDevelop, Xamarin Studio 등에서 실행하여 솔루션을 살펴보십시오. <code>.cs</code> 파일을 적용을 원하는 프로젝트로 복사하여 사용하십시오.</p>
+
+<p><em>추후 <code>.dll</code> Release Version이 배포됩니다.</em></p>
+
+<h2>
+<a id="기본-사용-방법" class="anchor" href="#%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>기본 사용 방법</h2>
+
+<p><em>현재는 Parse Tree의 출력까지가 지원됩니다.</em>
+사용을 원하는 C# 파일에 다음 문구를 추가하십시오.</p>
+
+<pre><code>import Mocca.Compiler
+…
+Compiler c = new Compiler("소스 파일 경로", CompileMode.FILE_PASS);
+var result = c.Parse();
+</code></pre>
+
+<p>파일을 직접 핸들링하지 않고,소스 자체를 이용한 방법이 있습니다. 자세한 내용은 <a href="http://github.com/ngEPL/Mocca">위키를 참조하십시오.</a></p>
+
+<h2>
+<a id="라이센스" class="anchor" href="#%EB%9D%BC%EC%9D%B4%EC%84%BC%EC%8A%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>라이센스</h2>
+
+<p>Mocca는 MIT License 하에 배포됩니다. 출처와 저작권을 명시하는 조건 하에 배포, 수정, 상업적 이용이 가능합니다. (<a href="http://opensource.org/licenses/MIT">http://opensource.org/licenses/MIT</a>)</p>
+
+<h2>
+<a id="개발-정보" class="anchor" href="#%EA%B0%9C%EB%B0%9C-%EC%A0%95%EB%B3%B4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>개발 정보</h2>
+
+<p>현재 이 프로젝트는 미래창조과학부에서 주관하는 <strong>2016년도 창의도전형 SW R&amp;D 지원 사업</strong> 의 지원을 받고 있습니다. 자세한 정보는 <a href="http://www.swrnd.or.kr/korean/viewtopic.php?t=1715">링크를 참조하십시오.</a></p>
+
+<p><a href="./Documentation/Monthly/log_april.md">월간 개발 보고서 (7월)</a></p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/ngEPL">ngEPL</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
