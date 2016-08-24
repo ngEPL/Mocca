@@ -210,20 +210,25 @@ namespace Mocca {
 		 * returns MoccaBlockGroup
 		 */ 
         protected virtual object EvalBlockgroup(ParseTree tree, params object[] paramlist) {
-            MoccaBlockGroup ret = new MoccaBlockGroup();
+   			var ret = new MoccaBlockGroup();
 
 			// Taking params
-            List<object> param = new List<object>();
-			var paramsValue = this.GetValue(tree, TokenType.Params, 0);
+			var param = (List<object>)this.GetValue(tree, TokenType.Params, 0);
 
-			// TODO: Taking code block
-            List<MoccaSuite> code = new List<MoccaSuite>();
+			var code = (List<MoccaSuite>)this.GetValue(tree, TokenType.Block, 0);
+
+			ret.name = (string)param[0];
+
+			Int32.TryParse(param[1].ToString(), out ret.x);
+			Int32.TryParse(param[2].ToString(), out ret.y);
+
+			ret.suite = code;
 
 			return ret;
         }
 
 		/*
-		 * ( param , param , param )
+		 * ( Param )
 		 * returns List<object>
 		 */ 
         protected virtual object EvalParams(ParseTree tree, params object[] paramlist) {
@@ -236,11 +241,13 @@ namespace Mocca {
 		 */ 
         protected virtual object EvalParam(ParseTree tree, params object[] paramlist) {
 			List<object> ret = new List<object>();
-			var i = 0;
+
+			int i = 0;
 			while (this.GetValue(tree, TokenType.Expression, i) != null) {
 				ret.Add(this.GetValue(tree, TokenType.Expression, i));
-				i++;
+				i = i + 1;
 			}
+
 			return ret;
         }
 
@@ -266,13 +273,18 @@ namespace Mocca {
 
 			if (this.GetValue(tree, TokenType.Params, 0) != null) {
 				param = (List<object>)this.GetValue(tree, TokenType.Params, 0);
+
+				switch (identifier) {
+					case "logic_compare":
+						return new MoccaExpression(param[0], param[1], param[2].ToString());
+					case "eq":
+						return new MoccaEquation(param[0], param[1], param[2].ToString());
+					default:
+						return new MoccaCommand(identifier, param);
+				}
+			} else {
+				return identifier;
 			}
-
-			MoccaCommand cmd = new MoccaCommand();
-			cmd.commandName = identifier;
-			cmd.commandArgs = param;
-
-			return cmd;
         }
 
 		/*
@@ -280,25 +292,33 @@ namespace Mocca {
 		 * returns object
 		 */ 
         protected virtual object EvalAtom(ParseTree tree, params object[] paramlist) {
-            if(this.GetValue(tree, TokenType.NUMBER, 0) == null &&
-               this.GetValue(tree, TokenType.STRING, 0) != null &&
-               this.GetValue(tree, TokenType.Array, 0) != null &&
-               this.GetValue(tree, TokenType.Dictionary, 0) != null) {
-				float i = 0;
-				return float.TryParse((string)this.GetValue(tree, TokenType.NUMBER, 0), out i);
-            } else if (this.GetValue(tree, TokenType.NUMBER, 0) != null &&
+			object ret;
+
+			if(this.GetValue(tree, TokenType.NUMBER, 0) != null &&
                this.GetValue(tree, TokenType.STRING, 0) == null &&
-               this.GetValue(tree, TokenType.Array, 0) != null &&
-               this.GetValue(tree, TokenType.Dictionary, 0) != null) {
-				return (string)this.GetValue(tree, TokenType.STRING, 0);
-            } else if(this.GetValue(tree, TokenType.NUMBER, 0) != null &&
-             this.GetValue(tree, TokenType.STRING, 0) != null &&
-             this.GetValue(tree, TokenType.Array, 0) == null &&
-             this.GetValue(tree, TokenType.Dictionary, 0) != null) {
-				return this.GetValue(tree, TokenType.Array, 0);
+               this.GetValue(tree, TokenType.Array, 0) == null &&
+               this.GetValue(tree, TokenType.Dictionary, 0) == null) {
+				float i = 0f;
+				if (float.TryParse((string)this.GetValue(tree, TokenType.NUMBER, 0), out i)) {
+					ret = i;
+				} else {
+					throw new Exception();
+				}
+            } else if (this.GetValue(tree, TokenType.NUMBER, 0) == null &&
+               this.GetValue(tree, TokenType.STRING, 0) != null &&
+               this.GetValue(tree, TokenType.Array, 0) == null &&
+               this.GetValue(tree, TokenType.Dictionary, 0) == null) {
+				ret = (string)this.GetValue(tree, TokenType.STRING, 0);
+            } else if(this.GetValue(tree, TokenType.NUMBER, 0) == null &&
+             this.GetValue(tree, TokenType.STRING, 0) == null &&
+             this.GetValue(tree, TokenType.Array, 0) != null &&
+             this.GetValue(tree, TokenType.Dictionary, 0) == null) {
+				ret = this.GetValue(tree, TokenType.Array, 0);
             } else {
-                return this.GetValue(tree, TokenType.Dictionary, 0);
+                ret = this.GetValue(tree, TokenType.Dictionary, 0);
             }
+
+			return ret;
         }
 
 		/*
@@ -349,7 +369,7 @@ namespace Mocca {
 
 			foreach (object j in param) {
 				List<object> cursor = (List<object>)j;
-				string key = (string)cursor[0];
+				string key = cursor[0].ToString();
 				object value = cursor[1];
 				ret.value.Add(new MoccaTuple(key, value));
 			}
@@ -389,34 +409,46 @@ namespace Mocca {
 		 * * SEMICOLON after Block will be allowed
 		 * returns MoccaSuite::Something
 		 */
-		List<string> parse_expected = new List<string>();
-		List<MoccaLogic> temp_logic = new List<MoccaLogic>();
         protected virtual object EvalStatement(ParseTree tree, params object[] paramlist) {
-			MoccaSuite ret = new MoccaSuite();
-
 			string identifier = (string)this.GetValue(tree, TokenType.IDENTIFIER, 0);
 			List<object> param = (List<object>)this.GetValue(tree, TokenType.Params, 0);
+			List<MoccaSuite> block = null;
 			if (this.GetValue(tree, TokenType.Block, 0) != null) {
-				List<MoccaSuite> block = (List<MoccaSuite>)this.GetValue(tree, TokenType.Block, 0);
+				block = (List<MoccaSuite>)this.GetValue(tree, TokenType.Block, 0);
 			}
 
 			switch (identifier) {
 				case "if":
-					break;
+					MoccaLogic a = new MoccaLogic();
+					a.keyword = "if";
+					a.expression = (MoccaExpression)param[0];
+					a.cmd_list = block;
+					return a;
 				case "elif":
-					break;
+					MoccaLogic b = new MoccaLogic();
+					b.keyword = "elif";
+					b.expression = (MoccaExpression)param[0];
+					b.cmd_list = block;
+					return b;
 				case "else":
-					break;
+					MoccaLogic c = new MoccaLogic();
+					c.keyword = "else";
+					c.cmd_list = block;
+					return c;
 				case "while":
-					break;
+					MoccaWhile d = new MoccaWhile();
+					d.expression = (MoccaExpression)param[0];
+					d.cmd_list = block;
+					return d;
 				case "for":
-					break;
+					MoccaFor e = new MoccaFor();
+					e.iter = param[0];
+					e.cmd_list = block;
+					return e;
 				default:
-					break;
+					MoccaCommand f = new MoccaCommand(identifier, param);
+					return f;
 			}
-
-
-			return ret;
         }
 
 

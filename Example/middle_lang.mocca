@@ -35,7 +35,7 @@
                 cmd(print,"술을 마실 수 있는 나이네요.");
             }
             while(logic_compare(loop_count,3,NOT_EQUAL)) {
-                cmd(print,textgen("아직 루프를",loop_count,"번 돌았습니다.");
+                cmd(print,textgen("아직 루프를",loop_count,"번 돌았습니다."));
                 set(loop_count,eq(loop_count, 1, ADD));
             }
             for(fruits) {

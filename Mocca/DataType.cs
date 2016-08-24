@@ -37,8 +37,13 @@ namespace Mocca {
          * 명령 이름과 인자로 구성되어 있다.
          */ 
         public class MoccaCommand : MoccaSuite {
-            public string commandName = null;
-            public List<object> commandArgs = null;
+            public string name = null;
+            public List<object> args = null;
+
+			public MoccaCommand(string name, List<object> args) {
+				this.name = name;
+				this.args = args;
+			}
         }
 
         /*
@@ -81,6 +86,10 @@ namespace Mocca {
         public class MoccaDictionary : MoccaSuite {
             public string name = null;
             public List<MoccaTuple> value = null;
+
+			public MoccaDictionary() {
+				value = new List<MoccaTuple>();
+			}
         }
 
         /*
@@ -91,22 +100,19 @@ namespace Mocca {
             public object a = null;
             public object b = null;
             public string logic_op = null;
-        }
 
-        /*
-         * if-elif-else 체인을 의미한다. 
-         * 체인이 무조건 완성되지 않아도 성립한다.
-         */ 
-        public class MoccaLogicChain : MoccaSuite {
-            public List<MoccaLogic> chain = new List<MoccaLogic>();
+			public MoccaExpression(object a, object b, string logic_op) {
+				this.a = a;
+				this.b = b;
+				this.logic_op = logic_op;
+			}
         }
 
         /*
          * 논리 분기 요소를 의미한다.
-         * if, elif, else가 존재할 수 있으며, MoccaLogicChain으로 연결된다.
-         * MoccaSuite를 상속하지 않아, 블록 구조에 바로 들어갈 수 없다.
+         * if, elif, else가 존재할 수 있다.
          */ 
-        public class MoccaLogic {
+        public class MoccaLogic : MoccaSuite {
             public string keyword = null;
             public MoccaExpression expression = null;
             public List<MoccaSuite> cmd_list = new List<MoccaSuite>();
@@ -138,6 +144,12 @@ namespace Mocca {
             public object a = null;
             public object b = null;
             public string op = null;
+
+			public MoccaEquation(object a, object b, string op) {
+				this.a = a;
+				this.b = b;
+				this.op = op;
+			}
         }
     }
 }
