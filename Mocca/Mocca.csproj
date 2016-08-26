@@ -46,10 +46,11 @@
     <Compile Include="DataType.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ParseTree.cs" />
-    <Compile Include="Compiler.cs" />
+    <Compile Include="MoccaParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanner.cs" />
+    <Compile Include="MoccaCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

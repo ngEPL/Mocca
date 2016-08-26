@@ -28,7 +28,7 @@ namespace Mocca {
 	/// <summary>
 	/// Fully-intergrated compiling engine.
 	/// </summary>
-    public class Compiler {
+    public class MoccaParser {
 		/// <summary>
 		/// Reference for compiling mocca code.
 		/// If your code's version is smaller than this, you can't compile your code with this version of compiler.
@@ -62,7 +62,7 @@ namespace Mocca {
 		/// </summary>
 		/// <param name="source">The source depends on your CompileMode.</param>
 		/// <param name="mode">The Compile session mode.</param>
-        public Compiler(String source, CompileMode mode) {
+        public MoccaParser(String source, CompileMode mode) {
             switch(mode) {
                 case CompileMode.FILE_PASS:
                     this.filePath = source;

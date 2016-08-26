@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Mocca {
     class Program {
         public static void Main(string[] args) {
-            var c = new Compiler("../../../Example/middle_lang.mocca", CompileMode.FILE_PASS);
+            var c = new MoccaParser("../../../Example/middle_lang.mocca", CompileMode.FILE_PASS);
             var ret = c.Parse();
             Console.WriteLine(ret);
         }
