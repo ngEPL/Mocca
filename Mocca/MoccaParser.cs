@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Mocca.DataType;
+using Mocca.Compiler;
 
 namespace Mocca {
 	/// <summary>
@@ -134,11 +134,11 @@ namespace Mocca {
 		/// <summary>
 		/// Parse your code with given compile mode.
 		/// </summary>
-        public object Parse() {
+        public ParseTree Parse() {
             Scanner s = new Scanner();
             Parser p = new Parser(s);
             ParseTree t = p.Parse(source);
-			return t.Eval();
+			return t;
         }
     }
 }
