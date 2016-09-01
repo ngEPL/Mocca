@@ -5,7 +5,14 @@ using Mocca.Compiler;
 
 namespace Mocca.Compiler.Language {
 	public class PythonCompiler : BasicCompiler {
+		ParseTree tree;
 		ParseNode nodes;
+
+		public object generate(ParseTree tree) {
+			this.tree = tree;
+			this.nodes = tree.Nodes[0];
+			return this.Eval(tree);
+		}
 
 		public object GetValue(ParseTree tree, TokenType type, int index) {
 			return GetValue(tree, type, ref index);
@@ -20,7 +27,7 @@ namespace Mocca.Compiler.Language {
 				if (node.Token.Type == type) {
 					index--;
 					if (index < 0) {
-						o = this.Eval(node, tree);
+						o = this.Eval(tree);
 						break;
 					}
 				}
@@ -34,8 +41,7 @@ namespace Mocca.Compiler.Language {
 		/// <param name="tree">the parsetree itself</param>
 		/// <param name="paramlist">optional input parameters</param>
 		/// <returns>a partial result of the evaluation</returns>
-		public object Eval(ParseNode nodes, ParseTree tree, params object[] paramlist) {
-			this.nodes = nodes;
+		public object Eval(ParseTree tree, params object[] paramlist) {
 			object Value = null;
 
 			switch (nodes.Token.Type) {
@@ -80,7 +86,7 @@ namespace Mocca.Compiler.Language {
 					Value = nodes.Token.Text;
 					break;
 			}
-			return "Hello, Python!";
+			return Value;
 		}
 
 		/*
@@ -90,13 +96,7 @@ namespace Mocca.Compiler.Language {
 		 */
 
 		public virtual object EvalStart(ParseTree tree, params object[] paramlist) {
-			List<MoccaBlockGroup> ret = new List<MoccaBlockGroup>();
-			int i = 0;
-			while (nodes.GetValue(tree, TokenType.Blockgroup, i) != null) {
-				ret.Add((MoccaBlockGroup)nodes.GetValue(tree, TokenType.Blockgroup, i));
-				i++;
-			}
-			return ret;
+			throw new NotImplementedException();
 		}
 
 		/*

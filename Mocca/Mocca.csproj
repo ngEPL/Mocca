@@ -52,6 +52,7 @@
     <Compile Include="Scanner.cs" />
     <Compile Include="PythonCompiler.cs" />
     <Compile Include="Compiler.cs" />
+    <Compile Include="MoccaCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -83,10 +83,6 @@ namespace Mocca {
 			public object Eval(params object[] paramlist) {
 				return Nodes[0].Eval(this, paramlist);
 			}
-
-			public object Generate(BasicCompiler c, params object[] paramlist) {
-				return c.Eval(Nodes[0], this, paramlist);
-			}
 		}
 
 		[Serializable]

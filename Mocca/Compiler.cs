@@ -5,7 +5,10 @@ using Mocca.Compiler;
 
 namespace Mocca {
 	public interface BasicCompiler {
-		object Eval(ParseNode nodes, ParseTree tree, params object[] paramlist);
+		object GetValue(ParseTree tree, TokenType type, int index);
+		object GetValue(ParseTree tree, TokenType type, ref int index);
+		object generate(ParseTree tree);
+		object Eval(ParseTree tree, params object[] paramlist);
 	}
 }
 
