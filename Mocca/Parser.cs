@@ -149,7 +149,7 @@ namespace Mocca
 
 			private void ParseExpression(ParseNode parent) {
 				Token tok;
-				ParseNode n;
+				// ParseNode n; : Never used
 				ParseNode node = parent.CreateNode(scanner.GetToken(TokenType.Expression), "Expression");
 				parent.Nodes.Add(node);
 
@@ -365,7 +365,7 @@ namespace Mocca
 
 			private void ParseStatementList(ParseNode parent) {
 				Token tok;
-				ParseNode n;
+				// ParseNode n; : Never used
 				ParseNode node = parent.CreateNode(scanner.GetToken(TokenType.StatementList), "StatementList");
 				parent.Nodes.Add(node);
 

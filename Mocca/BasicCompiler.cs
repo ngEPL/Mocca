@@ -4,7 +4,7 @@ using Mocca.DataType;
 
 namespace Mocca.Compiler {
 	public abstract class BasicCompiler {
-		List<MoccaBlockGroup> codeBase;
+		public List<MoccaBlockGroup> codeBase;
 
 		public abstract string Compile();
 

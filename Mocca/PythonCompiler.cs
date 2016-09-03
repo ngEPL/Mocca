@@ -4,8 +4,6 @@ using Mocca.DataType;
 
 namespace Mocca.Compiler {
 	public class PythonCompiler : BasicCompiler {
-		List<MoccaBlockGroup> codeBase = new List<MoccaBlockGroup>();
-
 		public PythonCompiler(List<MoccaBlockGroup> codeBase) {
 			this.codeBase = codeBase;
 		}
@@ -14,7 +12,7 @@ namespace Mocca.Compiler {
 
 		int globalIndent = 0;
 		List<string> modules = new List<string>();
-		string variableDefinition = "";
+		string variableDefinition = "# 변수 선언 부분입니다.\n\n";
 
 		public override string Compile() {
 			return this.EvalStart(codeBase);
@@ -27,8 +25,8 @@ namespace Mocca.Compiler {
 			foreach (MoccaBlockGroup i in codeBase) {
 				if (!EvalBlockgroup(i).Equals("")) {
 					blockgroups += EvalBlockgroup(i) + "\n";
+					groupName.Add(i.name);
 				}
-				groupName.Add(i.name);
 			}
 
 			string moduleImport = "";
@@ -36,32 +34,19 @@ namespace Mocca.Compiler {
 				moduleImport += "import " + i + "\n";
 			}
 
-			string mainBase = "# 이 Python 파일은 Mocca에 의해 생성되었습니다.\n# 생성 시각 : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss" + "\n\n");
+			string mainBase = "# -*- coding: utf-8 -*-\n# 이 Python 파일은 Mocca에 의해 생성되었습니다.\n# 생성 시각 : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss" + "\n\n");
 			mainBase += moduleImport + "\n" + variableDefinition + "\n" + blockgroups;
-
-			mainBase += "def __main():\n";
-			globalIndent++;
-
-			foreach (string i in groupName) {
-				mainBase += Indentation() + i + "()\n";
-			}
-
-			globalIndent--;
-
-			mainBase += "\n__main()\n";
 
 			mainBase = mainBase.Replace("\t", "    ");
 			return mainBase;
 		}
 
 		public override string EvalBlockgroup(MoccaBlockGroup codeBase) {
-			string ret = "def " + codeBase.name + "():\n";
+			string ret = "# " + codeBase.name + " 부분입니다.\n\n";
 			string block = "";
-			globalIndent++;
 			foreach (MoccaSuite i in codeBase.suite) {
 				block += Indentation() + EvalSuite(i);
 			}
-			globalIndent--;
 
 			var temp = block.Replace("\t", "");
 			if (temp.Equals("")) {
@@ -107,7 +92,12 @@ namespace Mocca.Compiler {
 					throw new FormatException();
 				}
 			} else {
-				return codeBase.ToString();
+				var i = 0.0;
+				//if (Double.TryParse(codeBase.ToString(), out i) || codeBase.ToString().Substring(0, 1).Equals("\"")) {
+					return codeBase.ToString();
+				//} else {
+				//	return "str(" + codeBase.ToString() + ")";
+				//}
 			}
 		}
 
@@ -149,9 +139,9 @@ namespace Mocca.Compiler {
 					break;
 				case CommandType.Textgen:
 					foreach (object i in codeBase.args) {
-						ret += EvalAtom(i) + " + ";
+						ret += EvalAtom(i) + ", ";
 					}
-					ret = ret.Substring(0, ret.Length - 3);
+					ret = ret.Substring(0, ret.Length - 2);
 					break;
 				case CommandType.Modcall:
 					ModuleCheck(codeBase.args[0].ToString());
@@ -281,20 +271,18 @@ namespace Mocca.Compiler {
 		public string GenerateLoopCounter() {
 			switch (globalIndent) {
 				case 0:
-					return "__loopcnt";
-				case 1:
 					return "i";
-				case 2:
+				case 1:
 					return "j";
-				case 3:
+				case 2:
 					return "k";
-				case 4:
+				case 3:
 					return "l";
-				case 5:
+				case 4:
 					return "m";
-				case 6:
+				case 5:
 					return "n";
-				case 7:
+				case 6:
 					return "o";
 				default:
 					return "__loopcnt" + globalIndent;

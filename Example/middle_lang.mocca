@@ -23,7 +23,7 @@
             cmd(print,"안녕, 세상아!");
             cmd(print,10);
             cmd(print,textgen("당신의 이름은",name,"입니다."));
-            cmd(print,textgen("현재 시간은",modcall(time,"hour(MODE_24)"),"시입니다."));
+            cmd(print,textgen("루트 2는",modcall(math,"sqrt(2)"),"입니다."));
         }
 
         blockgroup(logicAndLoop,5,10) {
