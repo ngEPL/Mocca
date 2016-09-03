@@ -11,12 +11,12 @@
     </head>
     <code>
         blockgroup(setVariable,1,2) {
-            set(hello, "홍승환");
-            set(isHuman, true);
-            set(age, 20);
-            set(loop_count, 0);
-            set(fruits, ["사과","배","오렌지","수박","참외"]);
-            set(students,{("20163178","홍기훈"),("20163179","홍승환"),("20163180","홍자현"),("20163181","황수진")});
+            def(name, "홍승환");
+            def(isHuman, true);
+            def(age, 20);
+            def(loop_count, 0);
+            def(fruits, ["사과","배","오렌지","수박","참외"]);
+            def(students,{("20163178","홍기훈"),("20163179","홍승환"),("20163180","홍자현"),("20163181","황수진")});
         }
 
         blockgroup(printAll,3,7) {
@@ -29,7 +29,8 @@
         blockgroup(logicAndLoop,5,10) {
             if(logic_compare(age, 14, NOT_EQUAL)) {
                 cmd(print,"아직 많이 어리네요.");
-            } elif(logic_compare(age, 19, LOWER_THAN)) {
+                cmd(print,"When do you grow up?");
+            } elif(logic_compare(age, 19, RIGHT_BIG)) {
                 cmd(print,"아직 술은 못 마시네요.");
             } else {
                 cmd(print,"술을 마실 수 있는 나이네요.");

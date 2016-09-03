@@ -10,6 +10,7 @@ namespace Mocca.Compiler {
 
 		public abstract string EvalStart(List<MoccaBlockGroup> codeBase);
 		public abstract string EvalBlockgroup(MoccaBlockGroup codeBase);
+		public abstract string EvalSuite(MoccaSuite codeBase);
 		public abstract string EvalAtom(object codeBase);
 		public abstract string EvalArray(MoccaArray codeBase);
 		public abstract string EvalDictionary(MoccaDictionary codeBase);
@@ -18,6 +19,7 @@ namespace Mocca.Compiler {
 		public abstract string EvalLogic(MoccaLogic codeBase);
 		public abstract string EvalWhile(MoccaWhile codeBase);
 		public abstract string EvalFor(MoccaFor codeBase);
+		public abstract string EvalExpression(MoccaExpression codeBase);
 		public abstract string EvalEquation(MoccaEquation codeBase);
 	}
 }
