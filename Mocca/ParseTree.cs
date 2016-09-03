@@ -80,8 +80,8 @@ namespace Mocca {
 			/// </summary>
 			/// <param name="paramlist">additional optional input parameters</param>
 			/// <returns>the output of the evaluation function</returns>
-			public object Eval(params object[] paramlist) {
-				return Nodes[0].Eval(this, paramlist);
+			public List<MoccaBlockGroup> Eval(params object[] paramlist) {
+				return Nodes[0].EvalStart(this, paramlist);
 			}
 		}
 
@@ -196,7 +196,7 @@ namespace Mocca {
 			 * returns List<MoccaBlockGroup>
 			 */
 
-			public virtual object EvalStart(ParseTree tree, params object[] paramlist) {
+			public virtual List<MoccaBlockGroup> EvalStart(ParseTree tree, params object[] paramlist) {
 				List<MoccaBlockGroup> ret = new List<MoccaBlockGroup>();
 				int i = 0;
 				while (this.GetValue(tree, TokenType.Blockgroup, i) != null) {
@@ -299,12 +299,7 @@ namespace Mocca {
 				   this.GetValue(tree, TokenType.STRING, 0) == null &&
 				   this.GetValue(tree, TokenType.Array, 0) == null &&
 				   this.GetValue(tree, TokenType.Dictionary, 0) == null) {
-					float i = 0f;
-					if (float.TryParse((string)this.GetValue(tree, TokenType.NUMBER, 0), out i)) {
-						ret = i;
-					} else {
-						throw new Exception();
-					}
+					ret = (string)this.GetValue(tree, TokenType.NUMBER, 0);
 				} else if (this.GetValue(tree, TokenType.NUMBER, 0) == null &&
 				   this.GetValue(tree, TokenType.STRING, 0) != null &&
 				   this.GetValue(tree, TokenType.Array, 0) == null &&
@@ -351,7 +346,7 @@ namespace Mocca {
 				MoccaArray ret = new MoccaArray();
 				ret.name = "__ready";
 				ret.value = param;
-				return param;
+				return ret;
 			}
 
 			/*

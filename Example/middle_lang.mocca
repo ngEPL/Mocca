@@ -16,14 +16,14 @@
             set(age, 20);
             set(loop_count, 0);
             set(fruits, ["사과","배","오렌지","수박","참외"]);
-            set(students,{(20163178,"홍기훈"),(20163179,"홍승환"),(20163180,"홍자현"),(20163181,"황수진")});
+            set(students,{("20163178","홍기훈"),("20163179","홍승환"),("20163180","홍자현"),("20163181","황수진")});
         }
 
         blockgroup(printAll,3,7) {
             cmd(print,"안녕, 세상아!");
             cmd(print,10);
-            cmd(print,textgen("당신의 이름은","name","입니다."));
-            cmd(print,textgen("현재 시간은",modcall(time,hour(MODE_24)),"시입니다."));
+            cmd(print,textgen("당신의 이름은",name,"입니다."));
+            cmd(print,textgen("현재 시간은",modcall(time,"hour(MODE_24)"),"시입니다."));
         }
 
         blockgroup(logicAndLoop,5,10) {
