@@ -11,8 +11,9 @@ namespace Mocca.Compiler {
 		#region GeneralCompiler
 
 		int globalIndent = 0;
+		bool isMicrobit = false;
 		List<string> modules = new List<string>();
-		string variableDefinition = "# 변수 선언 부분입니다.\n\n";
+		string variableDefinition = "\n# 변수 선언 부분입니다.\n\n";
 
 		public override string Compile() {
 			return this.EvalStart(codeBase);
@@ -30,12 +31,22 @@ namespace Mocca.Compiler {
 			}
 
 			string moduleImport = "";
+
+			if (isMicrobit) {
+				moduleImport += "from microbit import *\n";
+			}
+
 			foreach (string i in modules) {
 				moduleImport += "import " + i + "\n";
 			}
 
 			string mainBase = "# -*- coding: utf-8 -*-\n# 이 Python 파일은 Mocca에 의해 생성되었습니다.\n# 생성 시각 : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss" + "\n\n");
-			mainBase += moduleImport + "\n" + variableDefinition + "\n" + blockgroups;
+
+			if (variableDefinition.Equals("\n# 변수 선언 부분입니다.\n\n")) {
+				variableDefinition = "";
+			}
+
+			mainBase += moduleImport + variableDefinition + "\n" + blockgroups;
 
 			mainBase = mainBase.Replace("\t", "    ");
 			return mainBase;
@@ -147,6 +158,10 @@ namespace Mocca.Compiler {
 					ModuleCheck(codeBase.args[0].ToString());
 					ret = codeBase.args[0].ToString() + "." + (codeBase.args[1].ToString()).Substring(1, codeBase.args[1].ToString().Length - 2);
 					break;
+				case CommandType.Physical:
+					PhysicalDeviceCheck(codeBase.args[0].ToString());
+					ret = codeBase.args[1].ToString().Substring(1, codeBase.args[1].ToString().Length - 2) + "\n";
+					break;
 				case CommandType.Unknown:
 					throw new FormatException();
 			}
@@ -256,6 +271,7 @@ namespace Mocca.Compiler {
 			Cmd,
 			Textgen,
 			Modcall,
+			Physical,
 			Unknown
 
 		}
@@ -298,6 +314,14 @@ namespace Mocca.Compiler {
 			modules.Add(module);
 		}
 
+		public void PhysicalDeviceCheck(string device) {
+			switch (device) {
+				case "microbit":
+					isMicrobit = true;
+					break;
+			}
+		}
+
 		public CommandType RecognizeCommandType(string name) {
 			switch (name) {
 				case "def":
@@ -310,6 +334,8 @@ namespace Mocca.Compiler {
 					return CommandType.Textgen;
 				case "modcall":
 					return CommandType.Modcall;
+				case "physical":
+					return CommandType.Physical;
 				default:
 					return CommandType.Unknown;
 			}
@@ -318,4 +344,3 @@ namespace Mocca.Compiler {
 		#endregion CustomFunction
 	}
 }
-
