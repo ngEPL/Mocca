@@ -100,11 +100,16 @@ namespace Mocca {
             public object a = null;
             public object b = null;
             public string logic_op = null;
+			public string atom_evaluation = null;
 
 			public MoccaExpression(object a, object b, string logic_op) {
 				this.a = a;
 				this.b = b;
 				this.logic_op = logic_op;
+			}
+
+			public MoccaExpression(string atom) {
+				this.atom_evaluation = atom;
 			}
         }
 

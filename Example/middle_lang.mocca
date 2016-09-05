@@ -4,10 +4,7 @@
         <meta name="author" field="홍승환"/>
         <meta name="last_edit" field="2016. 06. 29. 12:35"/>
         <meta name="default_level" field="2"/>
-        <modules>
-            <mod name="sys"/>
-            <mod name="time"/>
-        </modules>
+        <meta name="physical_type" field="none"/>
     </head>
     <code>
         blockgroup(setVariable,1,2) {

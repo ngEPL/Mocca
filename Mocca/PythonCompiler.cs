@@ -207,6 +207,9 @@ namespace Mocca.Compiler {
 		}
 
 		public override string EvalExpression(MoccaExpression codeBase) {
+			if (codeBase.atom_evaluation != null) {
+				return codeBase.atom_evaluation;
+			}
 			string comparer = "?";
 			switch (codeBase.logic_op) {
 				case "EQUAL":

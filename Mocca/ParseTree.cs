@@ -433,7 +433,13 @@ namespace Mocca {
 						return c;
 					case "while":
 						MoccaWhile d = new MoccaWhile();
-						d.expression = (MoccaExpression)param[0];
+						if (param[0].ToString().Equals("true")) {
+							d.expression = new MoccaExpression("True");
+						} else if (param[0].ToString().Equals("false")) {
+							d.expression = new MoccaExpression("False");
+						} else {
+							d.expression = (MoccaExpression)param[0];
+						}
 						d.cmd_list = block;
 						return d;
 					case "for":

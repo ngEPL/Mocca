@@ -4,12 +4,14 @@
         <meta name="author" field="홍승환"/>
         <meta name="last_edit" field="2016. 06. 29. 12:35"/>
         <meta name="default_level" field="2"/>
+        <meta name="physical_type" field="microbit"/>
     </head>
     <code>
         blockgroup(microbitCode, 1, 2) {
-        	while(logic_compare(1, 1, EQUAL)) {
+        	while(true) {
         		physical(microbit, "display.scroll('A')");
         		physical(microbit, "sleep(2000)");
+        		physical(microbit, "display.show('O')");
         	}
         }
     </code>
