@@ -78,8 +78,7 @@ namespace Mocca
 				Patterns.Add(TokenType.IDENTIFIER, regex);
 				Tokens.Add(TokenType.IDENTIFIER);
 
-				// TODO: Need float, double support here
-				regex = new Regex(@"[0-9]+", RegexOptions.Compiled);
+				regex = new Regex(@"[-+]?[0-9]*\.?[0-9]+", RegexOptions.Compiled);
 				Patterns.Add(TokenType.NUMBER, regex);
 				Tokens.Add(TokenType.NUMBER);
 

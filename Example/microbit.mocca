@@ -14,6 +14,7 @@
     	}
 
         blockgroup(microbitCode, 1, 2) {
+        	def(adfaf, 100.18);
         	while(true) {
         		physical(microbit, "display.scroll('A')");
         		physical(microbit, "sleep(2000)");
