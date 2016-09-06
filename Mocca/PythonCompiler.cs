@@ -24,8 +24,9 @@ namespace Mocca.Compiler {
 
 			string blockgroups = "";
 			foreach (MoccaBlockGroup i in codeBase) {
-				if (!EvalBlockgroup(i).Equals("")) {
-					blockgroups += EvalBlockgroup(i) + "\n";
+				var evalBlockgroup = EvalBlockgroup(i);
+				if (!evalBlockgroup.Equals("")) {
+					blockgroups += evalBlockgroup + "\n";
 					groupName.Add(i.name);
 				}
 			}
@@ -55,6 +56,7 @@ namespace Mocca.Compiler {
 		public override string EvalBlockgroup(MoccaBlockGroup codeBase) {
 			string ret = "# " + codeBase.name + " 부분입니다.\n\n";
 			string block = "";
+
 			foreach (MoccaSuite i in codeBase.suite) {
 				block += Indentation() + EvalSuite(i);
 			}
@@ -69,10 +71,11 @@ namespace Mocca.Compiler {
 		public override string EvalSuite(MoccaSuite codeBase) {
 				var type = codeBase.GetType();
 				if (type.Equals(typeof(MoccaCommand))) {
-					if (!EvalCommand((MoccaCommand)codeBase).Equals("")) {
-						return EvalCommand((MoccaCommand)codeBase);
+				string evalCommand = EvalCommand((MoccaCommand)codeBase);
+					if (!evalCommand.Equals("")) {
+						return evalCommand;
 					} else {
-					return "";
+						return "";
 					}
 				} else if (type.Equals(typeof(MoccaLogic))) {
 					return EvalLogic((MoccaLogic)codeBase);
@@ -143,10 +146,10 @@ namespace Mocca.Compiler {
 					ret = codeBase.args[0] + "(" + EvalAtom(codeBase.args[1]) + ")" + "\n";
 					break;
 				case CommandType.Def:
-					variableDefinition += (string)codeBase.args[0] + " = " + EvalAtom(codeBase.args[1]) + "\n";
-					return "";
+					variableDefinition += codeBase.args[0].ToString() + " = " + EvalAtom(codeBase.args[1]) + "\n";
+					break;
 				case CommandType.Set:
-					ret = (string)codeBase.args[0] + " = " + EvalAtom(codeBase.args[1]) + "\n";
+					ret = codeBase.args[0].ToString() + " = " + EvalAtom(codeBase.args[1]) + "\n";
 					break;
 				case CommandType.Textgen:
 					foreach (object i in codeBase.args) {

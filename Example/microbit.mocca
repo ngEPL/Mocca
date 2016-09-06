@@ -7,6 +7,12 @@
         <meta name="physical_type" field="microbit"/>
     </head>
     <code>
+    	blockgroup(setVariable, 1, 2) {
+    		def(add, "123");
+        	def(onDemand, 15);
+        	def(sdf, "dddd");
+    	}
+
         blockgroup(microbitCode, 1, 2) {
         	while(true) {
         		physical(microbit, "display.scroll('A')");
