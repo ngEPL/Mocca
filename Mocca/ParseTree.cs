@@ -459,6 +459,12 @@ namespace Mocca {
 						e.iter = param[0];
 						e.cmd_list = block;
 						return e;
+					case "event":
+						if (param.Count == 1) {
+							return new MoccaEvent(MoccaEvent.recognizeType(param[0].ToString()), null);
+						} else {
+							return new MoccaEvent(MoccaEvent.recognizeType(param[0].ToString()), param[1].ToString());
+						}
 					default:
 						MoccaCommand f = new MoccaCommand(identifier, param);
 						return f;

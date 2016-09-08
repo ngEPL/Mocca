@@ -69,23 +69,40 @@ namespace Mocca.Compiler {
 		}
 
 		public override string EvalSuite(MoccaSuite codeBase) {
-				var type = codeBase.GetType();
-				if (type.Equals(typeof(MoccaCommand))) {
+			var type = codeBase.GetType();
+			if (type.Equals(typeof(MoccaCommand))) {
 				string evalCommand = EvalCommand((MoccaCommand)codeBase);
-					if (!evalCommand.Equals("")) {
-						return evalCommand;
-					} else {
-						return "";
-					}
-				} else if (type.Equals(typeof(MoccaLogic))) {
-					return EvalLogic((MoccaLogic)codeBase);
-				} else if (type.Equals(typeof(MoccaWhile))) {
-					return EvalWhile((MoccaWhile)codeBase);
-				} else if (type.Equals(typeof(MoccaFor))) {
-					return EvalFor((MoccaFor)codeBase);
+				if (!evalCommand.Equals("")) {
+					return evalCommand;
 				} else {
-					throw new FormatException();
+					return "";
 				}
+			} else if (type.Equals(typeof(MoccaLogic))) {
+				return EvalLogic((MoccaLogic)codeBase);
+			} else if (type.Equals(typeof(MoccaWhile))) {
+				return EvalWhile((MoccaWhile)codeBase);
+			} else if (type.Equals(typeof(MoccaEvent))) {
+				return EvalEvent((MoccaEvent)codeBase);
+			} else if (type.Equals(typeof(MoccaFor))) {
+				return EvalFor((MoccaFor)codeBase);
+			} else {
+				throw new FormatException();
+			}
+		}
+
+		public override string EvalEvent(MoccaEvent codeBase) {
+			switch (codeBase.type) {
+				case MoccaEventType.onProgramStart:
+					return "# 프로그램이 시작될 때 호출됩니다.\n";
+				case MoccaEventType.onKeyPressed:
+					return "# " + codeBase.option + " 키가 눌렸을 때 호출됩니다.\n";
+				case MoccaEventType.onFunctionCall:
+					return "# " + codeBase.option + " 함수입니다.\n";
+				case MoccaEventType.onSignalCall:
+					return "# " + codeBase.option + " 신호가 사용되면 호출됩니다.\n";
+				default:
+					throw new FormatException();
+			}
 		}
 
 		public override string EvalAtom(object codeBase) {
@@ -278,6 +295,7 @@ namespace Mocca.Compiler {
 			Textgen,
 			Modcall,
 			Physical,
+			Event,
 			Unknown
 
 		}
@@ -342,6 +360,8 @@ namespace Mocca.Compiler {
 					return CommandType.Modcall;
 				case "physical":
 					return CommandType.Physical;
+				case "event":
+					return CommandType.Event;
 				default:
 					return CommandType.Unknown;
 			}

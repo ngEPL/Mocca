@@ -17,6 +17,7 @@
         }
 
         blockgroup(printAll,3,7) {
+        	event(onProgramStart);
             cmd(print,"안녕, 세상아!");
             cmd(print,10);
             cmd(print,textgen("당신의 이름은",name,"입니다."));
@@ -24,6 +25,7 @@
         }
 
         blockgroup(logicAndLoop,5,10) {
+        	event(onKeyPressed, 19);
             if(logic_compare(age, 14, NOT_EQUAL)) {
                 cmd(print,"아직 많이 어리네요.");
                 cmd(print,"When do you grow up?");

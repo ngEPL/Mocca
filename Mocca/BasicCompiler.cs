@@ -11,6 +11,7 @@ namespace Mocca.Compiler {
 		public abstract string EvalStart(List<MoccaBlockGroup> codeBase);
 		public abstract string EvalBlockgroup(MoccaBlockGroup codeBase);
 		public abstract string EvalSuite(MoccaSuite codeBase);
+		public abstract string EvalEvent(MoccaEvent codeBase);
 		public abstract string EvalAtom(object codeBase);
 		public abstract string EvalArray(MoccaArray codeBase);
 		public abstract string EvalDictionary(MoccaDictionary codeBase);

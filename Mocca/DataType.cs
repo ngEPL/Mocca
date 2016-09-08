@@ -15,6 +15,14 @@ namespace Mocca {
             UNTYPED
         }
 
+		public enum MoccaEventType {
+			onProgramStart,
+			onKeyPressed,
+			onFunctionCall,
+			onSignalCall,
+			None
+		}
+
         /*
          * 하나의 블록 그룹을 의미한다.
          * x 좌표과 y 좌표가 포함되어 있으며, MoccaSuite를 포함한다.
@@ -31,6 +39,35 @@ namespace Mocca {
          * 빈 클래스로써, 단일 명령 단위는 모두 이 클래스를 상속받는다.
          */ 
         public class MoccaSuite { }
+
+		/*
+		 * 시작지점의 이벤트를 말한다.
+		 * 이벤트의 종류와 그 속성을 포함한다.
+		 */
+		public class MoccaEvent : MoccaSuite {
+			public MoccaEventType type = MoccaEventType.None;
+			public string option = null;
+
+			public MoccaEvent(MoccaEventType type, string option) {
+				this.type = type;
+				this.option = option;
+			}
+
+			public static MoccaEventType recognizeType(string type) {
+				switch (type) {
+					case "onProgramStart":
+						return MoccaEventType.onProgramStart;
+					case "onKeyPressed":
+						return MoccaEventType.onKeyPressed;
+					case "onFunctionCall":
+						return MoccaEventType.onFunctionCall;
+					case "onSignalCall":
+						return MoccaEventType.onSignalCall;
+					default:
+						return MoccaEventType.None;
+				}
+			}
+		}
 
         /*
          * 명령을 의미한다.
