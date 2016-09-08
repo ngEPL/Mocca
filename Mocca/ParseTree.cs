@@ -417,13 +417,25 @@ namespace Mocca {
 					case "if":
 						MoccaLogic a = new MoccaLogic();
 						a.keyword = "if";
-						a.expression = (MoccaExpression)param[0];
+						if (param[0].ToString().Equals("true")) {
+							a.expression = new MoccaExpression("True");
+						} else if (param[0].ToString().Equals("false")) {
+							a.expression = new MoccaExpression("False");
+						} else {
+							a.expression = (MoccaExpression)param[0];
+						}
 						a.cmd_list = block;
 						return a;
 					case "elif":
 						MoccaLogic b = new MoccaLogic();
 						b.keyword = "elif";
-						b.expression = (MoccaExpression)param[0];
+						if (param[0].ToString().Equals("true")) {
+							b.expression = new MoccaExpression("True");
+						} else if (param[0].ToString().Equals("false")) {
+							b.expression = new MoccaExpression("False");
+						} else {
+							b.expression = (MoccaExpression)param[0];
+						}
 						b.cmd_list = block;
 						return b;
 					case "else":
