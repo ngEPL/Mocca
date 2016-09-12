@@ -8,12 +8,14 @@
     </head>
     <code>
     	blockgroup(setVariable, 1, 2) {
+    		event(onProgramStart);
     		def(add, "123");
         	def(onDemand, 15);
         	def(sdf, "dddd");
     	}
 
         blockgroup(microbitCode, 1, 2) {
+        	event(onKeyPressed);
         	def(adfaf, 100.18);
         	while(true) {
         		physical(microbit, "display.scroll('A')");
