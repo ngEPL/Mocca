@@ -52,6 +52,7 @@
     <Compile Include="Parser\DataType.cs" />
     <Compile Include="Compiler\PythonCompiler.cs" />
     <Compile Include="Parser\Scanner.cs" />
+    <Compile Include="Physical\PhysicalParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

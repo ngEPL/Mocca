@@ -179,6 +179,8 @@ namespace Mocca.Compiler {
 					ret = codeBase.args[0].ToString() + "." + (codeBase.args[1].ToString()).Substring(1, codeBase.args[1].ToString().Length - 2);
 					break;
 				case CommandType.Physical:
+					// TODO: Toss this process to MoccaPhysical Library
+					// Bug:  cannot process other command: textgen...
 					PhysicalDeviceCheck(codeBase.args[0].ToString());
 					ret = codeBase.args[1].ToString().Substring(1, codeBase.args[1].ToString().Length - 2) + "\n";
 					break;
