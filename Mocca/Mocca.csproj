@@ -43,18 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataType.cs" />
-    <Compile Include="Parser.cs" />
-    <Compile Include="ParseTree.cs" />
-    <Compile Include="MoccaParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scanner.cs" />
-    <Compile Include="PythonCompiler.cs" />
-    <Compile Include="BasicCompiler.cs" />
+    <Compile Include="Compiler\BasicCompiler.cs" />
+    <Compile Include="Parser\MoccaParser.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\ParseTree.cs" />
+    <Compile Include="Parser\DataType.cs" />
+    <Compile Include="Compiler\PythonCompiler.cs" />
+    <Compile Include="Parser\Scanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Parser\" />
+    <Folder Include="Compiler\" />
+    <Folder Include="Physical\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
