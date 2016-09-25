@@ -52,6 +52,7 @@
     <Compile Include="Parser\DataType.cs" />
     <Compile Include="Compiler\PythonCompiler.cs" />
     <Compile Include="Parser\Scanner.cs" />
+    <Compile Include="Physical\PhysicalParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -59,6 +60,7 @@
   <ItemGroup>
     <Folder Include="Parser\" />
     <Folder Include="Compiler\" />
+    <Folder Include="Physical\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
