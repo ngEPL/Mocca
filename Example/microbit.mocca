@@ -18,7 +18,7 @@
         	event(onKeyPressed);
         	def(adfaf, 100.18);
         	while(true) {
-        		physical(microbit, "display.scroll('A')");
+        		physical(microbit, "display.scroll(sdf)");
         		physical(microbit, "sleep(2000)");
         		physical(microbit, "display.show('O')");
         	}
