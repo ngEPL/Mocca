@@ -54,6 +54,9 @@
     <Compile Include="Parser\Scanner.cs" />
     <Compile Include="Physical\PhysicalParser.cs" />
     <Compile Include="Block\Block.cs" />
+    <Compile Include="Simulator\Simulator.cs" />
+    <Compile Include="Simulator\Microbit\MicrobitState.cs" />
+    <Compile Include="Simulator\Microbit\MicrobitLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -63,6 +66,8 @@
     <Folder Include="Compiler\" />
     <Folder Include="Physical\" />
     <Folder Include="Block\" />
+    <Folder Include="Simulator\" />
+    <Folder Include="Simulator\Microbit\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
