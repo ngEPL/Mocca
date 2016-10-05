@@ -36,7 +36,7 @@ namespace Mocca.Blocks {
 		}
 	}
 
-	public class Block {
+	public partial class Block {
 		// x, y coordination
 		public double x = -1;
 		public double y = -1;
@@ -47,15 +47,5 @@ namespace Mocca.Blocks {
 		public List<object> value = new List<object>();
 		// Parent block
 		public Block parent;
-
-		public Block(BlockType type, params object[] value) {
-			this.type = type;
-			this.value = value.ToList<object>();
-		}
-
-		public Block(BlockType type, List<object> value) {
-			this.type = type;
-			this.value = value;
-		}
 	}
 }
