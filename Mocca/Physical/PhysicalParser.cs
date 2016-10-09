@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mocca.Compiler;
 using Mocca.DataType;
+using Mocca.Blocks;
 
 namespace Mocca.Physical {
 	public enum PhysicalDevice {
@@ -12,17 +13,69 @@ namespace Mocca.Physical {
 	}
 
 	public class PhysicalParser {
-		public MoccaCommand cmd;
+		public Block block;
 		public PhysicalDevice device;
 
-		public PhysicalParser(MoccaCommand cmd) {
-			this.cmd = cmd;
-			this.device = checkDevices(cmd);
+		public PhysicalParser(Block block) {
+			this.block = block;
+			this.device = checkDevices(block);
 		}
 
-		public PhysicalDevice checkDevices(MoccaCommand cmd) {
+		public string Parse() {
+			switch (device) {
+				case PhysicalDevice.Arduino:
+					return ParseArduino();
+				case PhysicalDevice.Microbit:
+					return ParseMicrobit();
+				case PhysicalDevice.RaspberryPi:
+					return ParseRaspberryPi();
+				default:
+					throw new FormatException();
+			}
+		}
+
+		#region Microbit
+
+		public string ParseMicrobit() {
+			var type = this.block.type;
+			var value = this.block.value;
+			switch (type.name) {
+				case "DisplayScroll":
+					return "display.scroll(" + value[0].ToString() + ")";
+				case "DisplayShow":
+					return "display.show(" + value[0].ToString() + ")";
+				case "Sleep":
+					return "sleep(" + value[0].ToString() + ")";
+				default:
+					throw new FormatException();
+			}
+		}
+
+		#endregion Microbit
+
+		#region Arduino
+
+		public string ParseArduino() {
+			return null;
+		}
+
+		#endregion Arduino
+
+		#region RaspberryPi
+
+		public string ParseRaspberryPi() {
+			return null;
+		}
+
+		#endregion RaspberryPi
+
+		public PhysicalDevice checkDevices(Block cmd) {
+			if (cmd.type.category != BlockCategory.Hardware) {
+				return PhysicalDevice.Unknown;
+			}
+
 			PhysicalDevice ret;
-			switch (cmd.args[0].ToString()) {
+			switch (cmd.type.extModule) {
 				case "microbit":
 					ret = PhysicalDevice.Microbit;
 					break;
