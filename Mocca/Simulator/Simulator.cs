@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Mocca.DataType;
 using Mocca.Physical;
-using Mocca.Simulator.Microbit;
 
 namespace Mocca.Simulator {
 	public class Simulator {
@@ -29,8 +28,8 @@ namespace Mocca.Simulator {
 
 		public DeviceState initState(PhysicalDevice device) {
 			switch (device) {
-				case PhysicalDevice.Microbit:
-					return new MicrobitState();
+				case PhysicalDevice.Arduino:
+					return null; // FIXME
 				default:
 					throw new FormatException();
 			}
