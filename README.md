@@ -26,21 +26,36 @@ _이외의 언어는 Mocca 확장 모듈을 제작하여 직접 추가하거나,
 
 프로젝트 적용 방법
 ------
-이 프로젝트는 루트 폴더에 ```Mocca.sln```을 포함하고 있습니다. 이 파일을 Visual Studio, MonoDevelop, Xamarin Studio 등에서 실행하여 솔루션을 살펴보십시오. ```.cs``` 파일을 적용을 원하는 프로젝트로 복사하여 사용하십시오.
-
-_추후 ```.dll``` Release Version이 배포됩니다._
+이 프로젝트는 `.dll`으로 빌드하여 사용할 수 있습니다. `.dll`로 빌드하여 사용을 원하는 프로젝트에 합쳐서 사용 방법에 따라 사용하십시오.
 
 기본 사용 방법
 ------
-_현재는 Parse Tree의 출력까지가 지원됩니다._
 사용을 원하는 C# 파일에 다음 문구를 추가하십시오.
 ```
 import Mocca.Compiler
 …
-Compiler c = new Compiler("소스 파일 경로", CompileMode.FILE_PASS);
-var result = c.Parse();
+// 중간 언어 파일과 함께 Parser를 생성합니다.
+var parser = new MoccaParser(
+			"../../../Example/middle_lang.mocca", 
+			CompileMode.FILE_PASS
+			);
+
+// ParseTree를 생성합니다.
+var tree = parser.Parse();
+
+// 블록 집합 객체(List<MoccaBlockGroup>)를 얻습니다.
+var eval = tree.Eval();
+
+// ParseTree를 문자열로써 출력합니다.
+Console.WriteLine(tree.PrintTree());
+
+// Python Compiler 객체를 생성합니다.
+var compiler = new PythonCompiler(eval);
+
+// Python으로 컴파일합니다.
+Console.WriteLine(compiler.Compile());
 ```
-파일을 직접 핸들링하지 않고,소스 자체를 이용한 방법이 있습니다. 자세한 내용은 [위키를 참조하십시오.](http://github.com/ngEPL/Mocca)
+파일을 직접 핸들링하지 않고, 소스 자체를 이용한 방법이 있습니다. 자세한 내용은 [위키를 참조하십시오.](http://github.com/ngEPL/Mocca)
 
 라이센스
 ------
@@ -51,3 +66,5 @@ Mocca는 MIT License 하에 배포됩니다. 출처와 저작권을 명시하는
 현재 이 프로젝트는 미래창조과학부에서 주관하는 __2016년도 창의도전형 SW R&D 지원 사업__ 의 지원을 받고 있습니다. 자세한 정보는 [링크를 참조하십시오.](http://www.swrnd.or.kr/korean/viewtopic.php?t=1715)
 
 [월간 개발 보고서 (7월)](./Documentation/Monthly/log_april.md)
+[월간 개발 보고서 (8월)](./Documentation/Monthly/log_august.md)
+[Mocca Grammar Introduction](./Documentation/Feature/Mocca.md)

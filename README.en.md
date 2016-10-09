@@ -26,23 +26,37 @@ Dependencies
 ------
 No external library required. Mocca works on all environment which C# can run.
 
-Importing Mocca to yours
+Importing Mocca to Your Project
 ------
-This project includes ```Mocca.sln``` on root. You can open this with Visual Studio, MonoDevelop, Xamarin Studio, etc. Copy ```.cs``` files to your own project to import.
-
-_Now ```.dll``` release version preparing._
+You can build this project to `.dll` format. Build this project, and add `.dll` file to your own C# project.
 
 Basic Usage
 ------
-_Now only Parse Tree Printing is available. Still Developing!_
-
 Add this phrase on your ```.cs``` file:
 
 ```
 import Mocca.Compiler
 …
-Compiler c = new Compiler("<source file directory>", CompileMode.FILE_PASS);
-var result = c.Parse();
+// Make Parser with your .mocca file.
+var parser = new MoccaParser(
+			"../../../Example/middle_lang.mocca", 
+			CompileMode.FILE_PASS
+			);
+
+// Make ParseTree.
+var tree = parser.Parse();
+
+// Evaluate your tree, and make block list(List<MoccaBlockGroup>).
+var eval = tree.Eval();
+
+// Print your ParseTree to String
+Console.WriteLine(tree.PrintTree());
+
+// Make Python Compiler.
+var compiler = new PythonCompiler(eval);
+
+// Compile to Python.
+Console.WriteLine(compiler.Compile());
 ```
 
 We have solution for using pure Mocca source file. You can find this on [our Wiki.](http://github.com/ngEPL/Mocca)
@@ -58,3 +72,5 @@ Currently this project is supporting by __2016 Creative-Challenge Software R&D S
 _All files are written by Korean._
 
 [Monthly Development Report (April)](./Documentation/Monthly/log_april.md)
+[Monthly Development Report (August)](./Documentation/Monthly/log_august.md)
+[Mocca Grammar Introduction](./Documentation/Feature/Mocca.md)
