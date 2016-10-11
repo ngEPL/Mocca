@@ -55,6 +55,7 @@
     <Compile Include="Physical\PhysicalParser.cs" />
     <Compile Include="Block\Block.cs" />
     <Compile Include="Simulator\Simulator.cs" />
+    <Compile Include="Simulator\ArduinoSimulator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
