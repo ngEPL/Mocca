@@ -4,40 +4,23 @@ using Mocca.DataType;
 using Mocca.Physical;
 
 namespace Mocca.Simulator {
+	/// <summary>
+	/// Superclass for simulators.
+	/// </summary>
 	public class Simulator {
+		public DeviceState state = DeviceState.Unknown;
 		public PhysicalDevice device = PhysicalDevice.Unknown;
-		public DeviceState state;
-		public List<MoccaBlockGroup> code;
-
-		public Simulator(PhysicalDevice device) {
-			this.device = device;
-			this.state = initState(device);
-		}
-
-		public void SetCode(List<MoccaBlockGroup> code) {
-			this.code = code;
-		}
-
-		public int run() {
-			while(true) {
-				if (state.panicCode == 1) {
-					return 0;
-				}
-			}
-		}
-
-		public DeviceState initState(PhysicalDevice device) {
-			switch (device) {
-				case PhysicalDevice.Arduino:
-					return null; // FIXME
-				default:
-					throw new FormatException();
-			}
-		}
+		public List<MoccaBlockGroup> code = null;
 	}
 
-	public class DeviceState {
-		public bool isUpdated = false;
-		public int panicCode = -1;
+	/// <summary>
+	/// Describing states for physical devices.
+	/// </summary>
+	public enum DeviceState {
+		Standby,    // When simulator is ready for getting code
+		Starting,	// When simulator gets code to run
+		Running,	// When simulator is running
+		Stopping,	// When simulator completes running the code
+		Unknown		// When link to simulator is dead, or external causes
 	}
 }
