@@ -1,4 +1,5 @@
-﻿using System;
+
+using System;
 using System.Collections.Generic;
 using Mocca.Compiler;
 using Mocca.DataType;
@@ -46,6 +47,12 @@ namespace Mocca.Physical {
 					return "display.show(" + value[0].ToString() + ")";
 				case "Sleep":
 					return "sleep(" + value[0].ToString() + ")";
+				case "Button_A_pressed"
+                    			return "if microbit.button_a.is_pressed():"
+                		case "Button_B_pressed"
+                    			return "if microbit.button_b.is_pressed():"
+                		case "Button_AB_pressed"
+                    			return "if microbit.button_a.is_pressed() and microbit.button_b.is_pressed():"
 				default:
 					throw new FormatException();
 			}
