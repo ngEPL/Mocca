@@ -11,6 +11,10 @@ namespace Mocca.Simulator {
 		public DeviceState state = DeviceState.Unknown;
 		public PhysicalDevice device = PhysicalDevice.Unknown;
 		public List<MoccaBlockGroup> code = null;
+
+		public void run() {
+
+		}
 	}
 
 	/// <summary>
