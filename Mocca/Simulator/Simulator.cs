@@ -7,14 +7,13 @@ namespace Mocca.Simulator {
 	/// <summary>
 	/// Superclass for simulators.
 	/// </summary>
-	public class Simulator {
+	public abstract class Simulator {
 		public DeviceState state = DeviceState.Unknown;
 		public PhysicalDevice device = PhysicalDevice.Unknown;
 		public List<MoccaBlockGroup> code = null;
 
-		public void run() {
+		public abstract void run();
 
-		}
 	}
 
 	/// <summary>

@@ -6,13 +6,19 @@ using Mocca.Physical;
 namespace Mocca.Simulator.Arduino {
 	public enum Accessory {
 		LED,
-		Motor,
-		// TODO : Add more Accessory
+		DCMotor,
+		SERVOMotor,
+		LCD,
+		Piezo,
+		PhotoResistor,
+		PushButton,
+		TempSensor,
+		TiltSensor,
 		External,
 		Unknown
 	}
 
-	public enum Port { // TODO : Add comments for dev
+	public enum Port {
 		DigitalSCL,
 		DigitalSDA,
 		DigitalAREF,
@@ -50,12 +56,35 @@ namespace Mocca.Simulator.Arduino {
 
 	public class ArduinoSimulator : Simulator {
 
-		Dictionary<Port, Accessory> map; // = new Dictionary<Port, Accessory>();
+		private Dictionary<Port, Accessory> map; // = new Dictionary<Port, Accessory>();
+		private List<MoccaVariable> variable;
 
-		public ArduinoSimulator(List<MoccaBlockGroup> code) {
+		public ArduinoSimulator(Dictionary<Port, Accessory> map) {
 			state = DeviceState.Standby;
 			device = PhysicalDevice.Arduino;
+		}
+
+		public ArduinoSimulator(List<MoccaBlockGroup> code, Dictionary<Port, Accessory> map) {
+			state = DeviceState.Starting;
+			device = PhysicalDevice.Arduino;
 			this.code = code;
+		}
+
+		public void setCode(List<MoccaBlockGroup> code) {
+			state = DeviceState.Starting;
+			this.code = code;
+		}
+
+		public override void run() {
+			state = DeviceState.Running;
+
+			// Main Loop
+			foreach(MoccaBlockGroup blockgroup in code) {
+				Console.WriteLine(blockgroup.name);
+				foreach (MoccaSuite line in blockgroup.suite) {
+					Console.WriteLine(line.GetType());
+				}
+			}
 		}
 	}
 }
