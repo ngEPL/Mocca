@@ -48,11 +48,11 @@ namespace Mocca.Physical {
 				case "Sleep":
 					return "sleep(" + value[0].ToString() + ")";
 				case "ButtonPressedA":
-					return "if microbit.button_a.is_pressed():";
+					return "microbit.button_a.is_pressed():";
 				case "ButtonPressedB":
-					return "if microbit.button_b.is_pressed():";
+					return "microbit.button_b.is_pressed():";
 				case "ButtonPressedAB":
-					return "if microbit.button_a.is_pressed() and microbit.button_b.is_pressed():";
+					return "microbit.button_a.is_pressed() and microbit.button_b.is_pressed():";
 				default:
 					throw new FormatException();
 			}
