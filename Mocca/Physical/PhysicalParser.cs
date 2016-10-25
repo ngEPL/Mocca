@@ -37,7 +37,11 @@ namespace Mocca.Physical {
 
 		#region Microbit
 
-		public string ParseMicrobit() {
+		/// <summary>
+        /// usia
+        /// </summary>
+        /// <returns></returns>
+        public string ParseMicrobit() {
 			var type = this.block.type;
 			var value = this.block.value;
 			switch (type.name) {
@@ -53,7 +57,25 @@ namespace Mocca.Physical {
 					return "microbit.button_b.is_pressed():";
 				case "ButtonPressedAB":
 					return "microbit.button_a.is_pressed() and microbit.button_b.is_pressed():";
-				default:
+                case "Pin0Touched":
+                    return "pin0.is_touched():";
+                case "Pin1Touched":
+                    return "pin1.is_touched()";
+                case "Pin2Touched":
+                    return "pin2.is_touched()";
+                case "PlayMusic":
+                    return "music.play(music." + value[0].ToString() + "):";
+                case "FrequencySet":
+                    return "for freq in range(" + value[0].ToString() + "," + value[0].ToString() + "," + value[0].ToString() + "):";
+                case "MusicPitch":
+                    return "music.pitch(freq, " + value[0].ToString() + ")";
+                case "AccelerometerGetX":
+                    return "microbit.accelerometer.get_x()";
+                case "AccelerometerGetY":
+                    return "microbit.accelerometer.get_y()";
+                case "AccelerometerGetZ":
+                    return "microbit.accelerometer.get_z()";
+                default:
 					throw new FormatException();
 			}
 		}
