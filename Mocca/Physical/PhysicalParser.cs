@@ -75,6 +75,24 @@ namespace Mocca.Physical {
                     return "microbit.accelerometer.get_y()";
                 case "AccelerometerGetZ":
                     return "microbit.accelerometer.get_z()";
+                case "AccelerometerGetValue":
+                    return "microbit.accelerometer.get_values()";
+                case "AccelerometerGetGesture":
+                    return "microbit.accelerometer.current_gesture()";
+                case "CompassisCalibrate":
+                    return "microbit.compass.calibrate()"; // returns if the compass has been successfully calibrated, otherwise false 
+                case "CompassCalibrationClear":
+                    return "microbit.compass.clear_calibration()";
+                case "CompassX":
+                    return "microbit.compass.get_x()";
+                case "CompassY":
+                    return "microbit.compass.get_y()";
+                case "CompassZ":
+                    return "microbit.compass.get_z()";
+                case "CompassHeading":
+                    return "microbit.compass.heading()";
+                case "CompassStrength":
+                    return "microbit.compass.get_field_strength()";
                 default:
 					throw new FormatException();
 			}
