@@ -63,11 +63,11 @@ namespace Mocca.Physical {
                     return "pin1.is_touched()";
                 case "Pin2Touched":
                     return "pin2.is_touched()";
-                case "PlayMusic":
+                case "MusicPlay":
                     return "music.play(music." + value[0].ToString() + "):";
                 case "FrequencySet":
                     return "for freq in range(" + value[0].ToString() + "," + value[0].ToString() + "," + value[0].ToString() + "):";
-                case "MusicPitch":
+                case "PitchMusic":
                     return "music.pitch(freq, " + value[0].ToString() + ")";
                 case "AccelerometerGetX":
                     return "microbit.accelerometer.get_x()";
