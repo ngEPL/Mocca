@@ -118,10 +118,15 @@ namespace Mocca.Physical
                 case "Setup":
                     return "void setup()";
                 case "Serial":
-                    return "Serial.begin" + value[0].ToString()+";"; // Serial.begin(9600);
+                    return "Serial.begin" + value[0].ToString() + ";"; // Serial.begin(9600);
                 case "Loop":
                     return "void loop()";
-
+                case "digitalWrite":
+                    return "digitalWrite(" + value[0].ToString() + ", High);"; // digitalWrite(LED_BUILTIN, HIGH)/turn the LED on (HIGH is the voltage level)
+                case "delay":
+                    return "delay(" + value[0].ToString() + ");"; // wait for a second
+                case "pinMode":
+                    return "pinMode(" + value[0].ToString() + "," + value[0].ToString() + ");";  // initialize the LED pin as an output: pinMode(ledPin, OUTPUT);
             }
             return null;
         }
